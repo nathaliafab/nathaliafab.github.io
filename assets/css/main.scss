@@ -353,7 +353,6 @@ a:hover {
   box-shadow: var(--card-shadow) !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease !important;
   color: var(--text-color) !important;
-  overflow: hidden;
 }
 
 .card:hover {
@@ -361,20 +360,25 @@ a:hover {
   box-shadow: 0 14px 40px rgba(102, 126, 234, 0.22) !important;
 }
 
-/* Clickable card link styling */
-.card-link {
+/* Clickable blog card link styling */
+.blog-card-link {
   text-decoration: none !important;
   color: inherit !important;
   display: block;
 }
 
-.card-link:hover {
+.blog-card-link:hover {
   text-decoration: none !important;
   color: inherit !important;
 }
 
-/* Image styling with rounded corners */
-.maxthumb img {
+/* Blog cards specific styling */
+.blog-card {
+  overflow: hidden;
+}
+
+/* Image styling with rounded corners for blog cards */
+.blog-card .maxthumb img {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   width: 100%;

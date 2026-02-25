@@ -4,8 +4,8 @@
 {% assign reading_time = words | plus: 199 | divided_by: 200 %}
 
 <div class="col-lg-4 col-md-6 mb-30px card-group">
-    <a href="{{ site.baseurl }}{{ post.url }}" class="card-link">
-        <div class="card h-100">
+    <a href="{{ site.baseurl }}{{ post.url }}" class="blog-card-link">
+        <div class="card h-100 blog-card">
             <div class="maxthumb">
                 {% if post.image %}
                     {% if site.lazyimages == "enabled" %}
@@ -19,9 +19,9 @@
                 <!-- Category & Reading Time badges -->
                 <div class="post-meta-row">
                     {% for category in post.categories limit:1 %}
-                    <span class="cat-badge">
+                    <a class="cat-badge" href="{{ site.baseurl }}/categories#{{ category | replace: ' ', '-' }}" onclick="event.stopPropagation()">
                         <i class="fas fa-tag"></i> {{ category }}
-                    </span>
+                    </a>
                     {% endfor %}
                     <span class="read-time-badge">
                         <i class="fas fa-clock"></i> {{ reading_time }} min
