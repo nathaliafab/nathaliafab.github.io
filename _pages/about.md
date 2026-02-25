@@ -16,41 +16,23 @@ permalink: /about
 
 </div>
 
-<div class="row mt-4">
-  <div class="col-md-6 mb-3">
-    <a href="mailto:{{ author.email }}" class="social-link d-flex align-items-center gap-2 p-3" style="border-radius:12px; width:auto; height:auto; background:var(--card-bg); border:1px solid var(--card-border);">
-      <i class="fas fa-envelope" style="color:var(--link-color)"></i>
-      <span style="color:var(--text-color)">{{ author.email }}</span>
-    </a>
-  </div>
-  <div class="col-md-6 mb-3">
-    <a href="{{ author.github }}" target="_blank" class="social-link d-flex align-items-center gap-2 p-3" style="border-radius:12px; width:auto; height:auto; background:var(--card-bg); border:1px solid var(--card-border);">
-      <i class="fab fa-github" style="color:var(--link-color)"></i>
-      <span style="color:var(--text-color)">GitHub</span>
-    </a>
-  </div>
-  <div class="col-md-6 mb-3">
-    <a href="{{ author.linkedin }}" target="_blank" class="social-link d-flex align-items-center gap-2 p-3" style="border-radius:12px; width:auto; height:auto; background:var(--card-bg); border:1px solid var(--card-border);">
-      <i class="fab fa-linkedin" style="color:var(--link-color)"></i>
-      <span style="color:var(--text-color)">LinkedIn</span>
-    </a>
-  </div>
-  <div class="col-md-6 mb-3">
-    <a href="{{ author.cin }}" target="_blank" class="social-link d-flex align-items-center gap-2 p-3" style="border-radius:12px; width:auto; height:auto; background:var(--card-bg); border:1px solid var(--card-border);">
-      <i class="fas fa-university" style="color:var(--link-color)"></i>
-      <span style="color:var(--text-color)">Página no CIn-UFPE</span>
-    </a>
-  </div>
-  <div class="col-md-6 mb-3">
-    <a href="{{ author.lattes }}" target="_blank" class="social-link d-flex align-items-center gap-2 p-3" style="border-radius:12px; width:auto; height:auto; background:var(--card-bg); border:1px solid var(--card-border);">
-      <i class="ai ai-lattes" style="color:var(--link-color)"></i>
-      <span style="color:var(--text-color)">Currículo Lattes</span>
-    </a>
-  </div>
-  <div class="col-md-6 mb-3">
-    <a href="{{ author.orcid }}" target="_blank" class="social-link d-flex align-items-center gap-2 p-3" style="border-radius:12px; width:auto; height:auto; background:var(--card-bg); border:1px solid var(--card-border);">
-      <i class="ai ai-orcid" style="color:var(--link-color)"></i>
-      <span style="color:var(--text-color)">ORCID</span>
-    </a>
-  </div>
+<div class="social-links mt-4">
+  <a href="mailto:{{ author.email }}" class="social-link" title="{{ author.email }}" aria-label="E-mail">
+    <i class="fas fa-envelope"></i>
+  </a>
+  <a href="{{ author.github }}" target="_blank" class="social-link" title="GitHub" aria-label="GitHub">
+    <i class="fab fa-github"></i>
+  </a>
+  <a href="{{ author.linkedin }}" target="_blank" class="social-link" title="LinkedIn" aria-label="LinkedIn">
+    <i class="fab fa-linkedin-in"></i>
+  </a>
+  <a href="{{ author.cin }}" target="_blank" class="social-link" title="Página no CIn-UFPE" aria-label="CIn-UFPE">
+    <i class="fas fa-university"></i>
+  </a>
+  <a href="{{ author.lattes }}" target="_blank" class="social-link" title="Currículo Lattes" aria-label="Lattes">
+    <i class="ai ai-lattes"></i>
+  </a>
+  <a href="{{ author.orcid }}" target="_blank" class="social-link" title="ORCID" aria-label="ORCID">
+    <i class="ai ai-orcid"></i>
+  </a>
 </div>

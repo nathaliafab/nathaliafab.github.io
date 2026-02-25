@@ -4,6 +4,8 @@ archive: false
 post_class: post-template
 ---
 
+{% assign words = content | number_of_words %}
+{% assign reading_time = words | plus: 199 | divided_by: 200 %}
 <!-- Begin Article
 ================================================== -->
 <div class="container">
@@ -22,6 +24,18 @@ post_class: post-template
 
                 <!-- Post Title -->
                 <h1 class="posttitle">{{ page.title }}</h1>
+
+                <!-- Reading time -->
+                <div class="post-meta-row mt-2">
+                    <span class="read-time-badge">
+                        <i class="fas fa-clock"></i> {{ reading_time }} min de leitura
+                    </span>
+                    {% for category in page.categories limit:1 %}
+                    <a class="cat-badge" href="{{ site.baseurl }}/categories#{{ category | replace: ' ', '-' }}">
+                        <i class="fas fa-tag"></i> {{ category }}
+                    </a>
+                    {% endfor %}
+                </div>
 
             </div>
 

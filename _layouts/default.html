@@ -48,7 +48,7 @@ ga('send', 'pageview');
 {% endif %}
 
 {% capture layout %}{% if page.layout %}layout-{{ page.layout }}{% endif %}{% endcapture %}
-<body class="{{layout}}">
+<body class="{{layout}}" style="display:flex; flex-direction:column; min-height:100vh;">
 
 <!-- Begin Menu Navigation
 ================================================== -->
@@ -84,7 +84,15 @@ ga('send', 'pageview');
             {% else %}
             <li class="nav-item">
             {% endif %}
-            <a class="nav-link" href="{{ site.baseurl }}/">Blog</a>
+            <a class="nav-link" href="{{ site.baseurl }}/">Home</a>
+            </li>
+
+            {% if page.url == "/blog" or page.url == "/blog/" %}
+            <li class="nav-item active">
+            {% else %}
+            <li class="nav-item">
+            {% endif %}
+            <a class="nav-link" href="{{ site.baseurl }}/blog">Blog</a>
             </li>
 
             {% if page.url == "/about" or page.url == "/about/" %}
@@ -138,7 +146,7 @@ ga('send', 'pageview');
 <!-- End Navigation
 ================================================== -->
 
-<div class="site-content">
+<div class="site-content" style="flex:1;">
 
 <div class="container">
 
