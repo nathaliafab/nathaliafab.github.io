@@ -527,7 +527,7 @@ span.post-name a {
 .timeline::before {
   content: '';
   position: absolute;
-  left: 0;
+  left: -0.94rem;
   top: 6px;
   bottom: 6px;
   width: 2px;
@@ -554,7 +554,7 @@ span.post-name a {
 .timeline-item::before {
   content: '';
   position: absolute;
-  left: -0.6rem;
+  left: -1rem;
   top: 1.2rem;
   width: 12px;
   height: 12px;
@@ -616,6 +616,28 @@ span.post-name a {
 
 .section-subtitle:first-child {
   margin-top: 0;
+}
+
+/* Experience categories on homepage */
+.experience-category {
+  margin-bottom: 2rem;
+}
+
+.experience-category:last-child {
+  margin-bottom: 0;
+}
+
+.experience-subtitle {
+  color: var(--text-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.experience-category .timeline {
+  margin-top: 0.75rem;
 }
 
 /* ============================================================
