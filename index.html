@@ -172,10 +172,10 @@ title: Home
   
   <!-- Extrair cada seção individualmente -->
   {% assign prof_start = content | split: 'Profissional</h3>' | last %}
-  {% assign prof_content = prof_start | split: '<h2 class="section-subtitle">Pesquisa</h2>' | first %}
+  {% assign prof_content = prof_start | split: '<h3 class="section-subtitle">Pesquisa</h3>' | first %}
   
   {% assign research_start = content | split: 'Pesquisa</h3>' | last %}
-  {% assign research_content = research_start | split: '<h2 class="section-subtitle">Formação Acadêmica</h2>' | first %}
+  {% assign research_content = research_start | split: '<h3 class="section-subtitle">Formação Acadêmica</h3>' | first %}
   
   {% assign academic_content = content | split: 'Formação Acadêmica</h3>' | last %}
 
