@@ -1,5 +1,7 @@
 <!-- begin post -->
 {% assign author = site.authors[post.author] %}
+{% assign words = post.content | number_of_words %}
+{% assign reading_time = words | plus: 199 | divided_by: 200 %}
 
 <div class="col-lg-4 col-md-6 mb-30px card-group">
     <div class="card h-100">
@@ -10,13 +12,25 @@
                     {% if site.lazyimages == "enabled" %}
                         <img class="img-fluid lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="{% if post.image contains "://" %}{{ post.image }}{% else %}{{ site.baseurl }}/{{ post.image }}{% endif %}" alt="{{ post.title }}">
                     {% else %}
-                        <img class="img-fluid" src="{% if post.image contains "://" %}{{ post.image }}{% else %}{{ site.baseurl }}/{{ post.image }}{% endif %}" alt="{{ post.title }}"> 
+                        <img class="img-fluid" src="{% if post.image contains "://" %}{{ post.image }}{% else %}{{ site.baseurl }}/{{ post.image }}{% endif %}" alt="{{ post.title }}">
                     {% endif %}
 
                 {% endif %}
             </a>
         </div>
         <div class="card-body">
+            <!-- Category & Reading Time badges -->
+            <div class="post-meta-row">
+                {% for category in post.categories limit:1 %}
+                <a class="cat-badge" href="{{ site.baseurl }}/categories#{{ category | replace: ' ', '-' }}">
+                    <i class="fas fa-tag"></i> {{ category }}
+                </a>
+                {% endfor %}
+                <span class="read-time-badge">
+                    <i class="fas fa-clock"></i> {{ reading_time }} min
+                </span>
+            </div>
+
             <h2 class="card-title">
                 <a class="text-dark" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
                 {% if post.rating %}
