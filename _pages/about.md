@@ -8,12 +8,33 @@ permalink: /about
 
 <div class="about-card mb-4">
 
-<p>Sou <strong>Mestranda em Ciência da Computação</strong> no Centro de Informática (CIn) da Universidade Federal de Pernambuco (UFPE), e graduada em <strong>Engenharia da Computação</strong> também pelo CIn. Minha paixão genuína por tecnologia me impulsiona a buscar constantemente aprofundar meus conhecimentos nas diversas vertentes da computação.</p>
+<p>Sou <strong>Mestranda em Ciência da Computação</strong> no Centro de Informática (CIn) da Universidade Federal de Pernambuco (UFPE), onde me graduei em <strong>Engenharia da Computação</strong>. Tenho uma paixão genuína por tecnologia e busco constantemente aprofundar meus conhecimentos nas diversas vertentes da computação.</p>
 
-<p>Meus principais interesses incluem <strong>Inteligência Artificial (IA)</strong>, <strong>desenvolvimento de software</strong>, segurança da informação e hardware. Sou entusiasta de <strong>código aberto</strong> e acredito na importância da colaboração e do compartilhamento de conhecimento dentro da comunidade tecnológica.</p>
+<p>Meus principais interesses incluem <strong>inteligência artificial</strong>, <strong>desenvolvimento de software</strong>, segurança da informação e hardware. Também sou entusiasta de <strong>código aberto</strong> e acredito na importância da colaboração e do compartilhamento de conhecimento dentro da comunidade tecnológica.</p>
 
 <p>Você pode conferir alguns dos meus projetos e contribuições no <a href="{{ author.github }}" target="_blank">GitHub</a>.</p>
 
+</div>
+
+<div class="skills-section mb-4">
+<h3>Principais Competências</h3>
+<div class="skill-tags">
+  <span class="skill-tag">Testes de Software</span>
+  <span class="skill-tag">Automação de Testes</span>
+  <span class="skill-tag">LLM (Large Language Models)</span>
+  <span class="skill-tag">Engenharia de Software</span>
+  <span class="skill-tag">Python</span>
+  <span class="skill-tag">Java</span>
+</div>
+</div>
+
+<div class="awards-section mb-4">
+<h3>Reconhecimentos</h3>
+<ul class="awards-list">
+  <li>🏆 <strong>Menção Honrosa</strong> na 27ª Jornada de Iniciação Científica - PIBIC/FACEPE</li>
+  <li>🚀 <strong>Reconhecimento ao Melhor Projeto de Startup</strong> do Projetão 2025.1: TáPago</li>
+  <li>📄 <strong>Artigo de Destaque</strong> - X Simpósio Brasileiro de Teste de Software Sistemático e Automatizado (SAST)</li>
+</ul>
 </div>
 
 <div class="social-links mt-4">

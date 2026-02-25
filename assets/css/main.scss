@@ -94,10 +94,6 @@ a:hover {
   border-color: var(--nav-border) !important;
 }
 
-.navbar-toggler-icon {
-  /* default — no filter needed in light mode */
-}
-
 [data-theme="dark"] .navbar-toggler-icon {
   filter: invert(1);
 }
@@ -622,6 +618,27 @@ span.post-name a {
   margin: 0;
 }
 
+.timeline-location {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  color: var(--text-color);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--card-border);
+  padding-bottom: 0.5rem;
+}
+
+.section-subtitle:first-child {
+  margin-top: 0;
+}
+
 /* ============================================================
    Projects
    ============================================================ */
@@ -1096,6 +1113,76 @@ ul.tags li a,
 
 [data-theme="dark"] .form-control::placeholder {
   color: var(--text-muted) !important;
+}
+
+/* ============================================================
+   About Page - Skills, Awards
+   ============================================================ */
+.skills-section h3,
+.awards-section h3 {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--card-border);
+  padding-bottom: 0.5rem;
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, var(--grad-1), var(--grad-3));
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.skill-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+}
+
+.awards-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.awards-list li {
+  padding: 8px 0;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.awards-list li:last-child {
+  border-bottom: none;
+}
+
+.awards-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Dark mode adjustments for about page */
+[data-theme="dark"] .skills-section h3,
+[data-theme="dark"] .awards-section h3 {
+  color: var(--text-color) !important;
+  border-bottom-color: var(--card-border) !important;
+}
+
+[data-theme="dark"] .awards-list li {
+  color: var(--text-color) !important;
+  border-bottom-color: var(--card-border) !important;
 }
 
 /* ============================================================
