@@ -31,7 +31,7 @@ post_class: post-template
                         <i class="fas fa-clock"></i> {{ reading_time }} min de leitura
                     </span>
                     {% for category in page.categories limit:1 %}
-                    <a class="cat-badge" href="{{ site.baseurl }}/categories#{{ category | replace: ' ', '-' }}">
+                    <a class="cat-badge" href="{{ site.baseurl }}/blog#{{ category | replace: ' ', '-' }}">
                         <i class="fas fa-tag"></i> {{ category }}
                     </a>
                     {% endfor %}
@@ -96,7 +96,7 @@ post_class: post-template
                     {% assign sortedCategories = page.categories | sort %}
                     {% for category in sortedCategories %}
                     <li>
-                        <a class="smoothscroll" href="{{site.baseurl}}/categories#{{ category | replace: " ","-" }}">{{ category }}</a>
+                        <a class="smoothscroll" href="{{site.baseurl}}/blog#{{ category | replace: " ","-" }}">{{ category }}</a>
                     </li>
                     {% endfor %}
                 </ul>
