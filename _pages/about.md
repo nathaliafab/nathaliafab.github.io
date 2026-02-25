@@ -2,7 +2,6 @@
 layout: page
 title: Sobre
 permalink: /about
-comments: true
 ---
 
 <div class="row justify-content-between">
@@ -33,8 +32,6 @@ comments: true
 
 <p><a target="_blank" href="https://github.com/nathaliafab" class="btn btn-outline-dark btn-sm btn-block mb-2"><i class="fab fa-github"></i> GitHub</a></p>
 <p><a target="_blank" href="https://www.linkedin.com/in/nathaliafab" class="btn btn-outline-primary btn-sm btn-block"><i class="fab fa-linkedin"></i> LinkedIn</a></p>
-
-<a target="_blank" href="https://www.wowthemes.net/donate/" class="btn btn-danger">Buy me a coffee</a> <a target="_blank" href="https://bootstrapstarter.com/bootstrap-templates/template-mediumish-bootstrap-jekyll/" class="btn btn-warning">Documentation</a>
 
 </div>
 </div>

@@ -5,10 +5,7 @@ description: "Mestranda em Ciência da Computação | Engenharia de Software e I
 logo: 'https://avatars.githubusercontent.com/u/74332487?v=4' 
 favicon: 'https://avatars.githubusercontent.com/u/74332487?v=4' 
 baseurl: "" 
-url: "https://nathaliafab.github.io"
-google_analytics: '' 
-disqus: '' 
-mailchimp-list: '' 
+url: "https://nathaliafab.github.io" 
 include: ["_pages"]
 permalink: /:title/
 
