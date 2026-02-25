@@ -7,7 +7,7 @@ favicon: 'https://avatars.githubusercontent.com/u/74332487?v=4'
 baseurl: "" 
 url: "https://nathaliafab.github.io" 
 include: ["_pages"]
-permalink: /:title/
+permalink: /blog/:title/
 
 # Authors
 authors:
