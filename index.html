@@ -46,7 +46,7 @@ title: Home
     <h2 class="section-heading">About</h2>
     <a href="{{ site.baseurl }}/about" class="see-all-link">Ver mais →</a>
   </div>
-  {% assign about_page = site.pages | where: "title", "Sobre mim" | first %}
+  {% assign about_page = site.pages | where: "title", "About" | first %}
   {% assign about_content = about_page.content %}
   {% assign main_paragraphs = about_content | split: '</div>' | first | split: '<p>' %}
   {% for paragraph in main_paragraphs offset:1 limit:2 %}
@@ -90,11 +90,16 @@ title: Home
       {% assign authors = card | split: 'paper-authors">' | last | split: '</div>' | first %}
       {% assign venue = card | split: 'paper-venue">' | last | split: '</div>' | first %}
       
-      {% assign pdf_link = card | split: 'href="' | last | split: '"' | first %}
+      {% assign paper_links_section = card | split: 'paper-links">' | last | split: '</div>' | first %}
+      {% assign links_in_section = paper_links_section | split: 'href="' %}
+      
+      {% assign pdf_link = '' %}
       {% assign doi_link = '' %}
-      {% assign links = card | split: 'href="' %}
-      {% if links.size > 2 %}
-        {% assign doi_link = links[2] | split: '"' | first %}
+      {% if links_in_section.size > 1 %}
+        {% assign pdf_link = links_in_section[1] | split: '"' | first %}
+      {% endif %}
+      {% if links_in_section.size > 2 %}
+        {% assign doi_link = links_in_section[2] | split: '"' | first %}
       {% endif %}
       
       <div class="paper-card">
@@ -165,38 +170,20 @@ title: Home
   {% assign experience_page = site.pages | where: "title", "Experience" | first %}
   {% assign content = experience_page.content %}
   
-  <!-- Extrair seção profissional -->
-  {% assign professional_section = content | split: '<h2 class="section-subtitle">Profissional</h2>' | last | split: '<h2 class="section-subtitle">Pesquisa</h2>' | first %}
-  {% assign prof_items = professional_section | split: '<div class="timeline-item">' %}
+  <!-- Extrair cada seção individualmente -->
+  {% assign prof_start = content | split: 'Profissional</h2>' | last %}
+  {% assign prof_content = prof_start | split: '<h2 class="section-subtitle">Pesquisa</h2>' | first %}
   
-  <!-- Extrair seção de pesquisa -->
-  {% assign research_section = content | split: '<h2 class="section-subtitle">Pesquisa</h2>' | last | split: '<h2 class="section-subtitle">Formação Acadêmica</h2>' | first %}
-  {% assign research_items = research_section | split: '<div class="timeline-item">' %}
+  {% assign research_start = content | split: 'Pesquisa</h2>' | last %}
+  {% assign research_content = research_start | split: '<h2 class="section-subtitle">Formação Acadêmica</h2>' | first %}
   
-  <!-- Extrair seção acadêmica -->
-  {% assign academic_section = content | split: '<h2 class="section-subtitle">Formação Acadêmica</h2>' | last %}
-  {% assign academic_items = academic_section | split: '<div class="timeline-item">' %}
+  {% assign academic_content = content | split: 'Formação Acadêmica</h2>' | last %}
 
   <!-- Experiência Profissional -->
   <div class="experience-category">
     <h3 class="experience-subtitle">Profissional</h3>
     <div class="timeline">
-      {% for item in prof_items offset:1 %}
-        {% if item contains 'timeline-period' %}
-          {% assign period = item | split: 'timeline-period">' | last | split: '</div>' | first %}
-          {% assign title = item | split: 'timeline-title">' | last | split: '</div>' | first %}
-          {% assign org = item | split: 'timeline-org">' | last | split: '</div>' | first %}
-          {% assign desc = item | split: 'timeline-desc">' | last | split: '</p>' | first %}
-          <div class="timeline-item">
-            <div class="timeline-period">{{ period | strip }}</div>
-            <div class="timeline-title">{{ title | strip }}</div>
-            <div class="timeline-org">{{ org | strip }}</div>
-            {% if desc and desc != '' %}
-              <p class="timeline-desc">{{ desc | strip }}</p>
-            {% endif %}
-          </div>
-        {% endif %}
-      {% endfor %}
+      {{ prof_content }}
     </div>
   </div>
 
@@ -204,18 +191,7 @@ title: Home
   <div class="experience-category">
     <h3 class="experience-subtitle">Acadêmica</h3>
     <div class="timeline">
-      {% for item in academic_items offset:1 %}
-        {% if item contains 'timeline-period' %}
-          {% assign period = item | split: 'timeline-period">' | last | split: '</div>' | first %}
-          {% assign title = item | split: 'timeline-title">' | last | split: '</div>' | first %}
-          {% assign org = item | split: 'timeline-org">' | last | split: '</div>' | first %}
-          <div class="timeline-item">
-            <div class="timeline-period">{{ period | strip }}</div>
-            <div class="timeline-title">{{ title | strip }}</div>
-            <div class="timeline-org">{{ org | strip }}</div>
-          </div>
-        {% endif %}
-      {% endfor %}
+      {{ academic_content }}
     </div>
   </div>
 
@@ -223,22 +199,7 @@ title: Home
   <div class="experience-category">
     <h3 class="experience-subtitle">Pesquisa</h3>
     <div class="timeline">
-      {% for item in research_items offset:1 %}
-        {% if item contains 'timeline-period' %}
-          {% assign period = item | split: 'timeline-period">' | last | split: '</div>' | first %}
-          {% assign title = item | split: 'timeline-title">' | last | split: '</div>' | first %}
-          {% assign org = item | split: 'timeline-org">' | last | split: '</div>' | first %}
-          {% assign desc = item | split: 'timeline-desc">' | last | split: '</p>' | first %}
-          <div class="timeline-item">
-            <div class="timeline-period">{{ period | strip }}</div>
-            <div class="timeline-title">{{ title | strip }}</div>
-            <div class="timeline-org">{{ org | strip }}</div>
-            {% if desc and desc != '' %}
-              <p class="timeline-desc">{{ desc | strip }}</p>
-            {% endif %}
-          </div>
-        {% endif %}
-      {% endfor %}
+      {{ research_content }}
     </div>
   </div>
 
