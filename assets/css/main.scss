@@ -574,14 +574,13 @@ span.post-name a {
 .timeline-item::before {
   content: '';
   position: absolute;
-  left: -2.75rem;
+  left: -0.4rem;
   top: 1.2rem;
   width: 12px;
   height: 12px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--grad-1), var(--grad-3));
-  border: 2px solid white;
-  box-shadow: 0 0 0 3px var(--badge-bg);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
 }
 
 .timeline-item:hover {

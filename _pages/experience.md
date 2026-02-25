@@ -4,7 +4,7 @@ title: Experience
 permalink: /experience
 ---
 
-<h2 class="section-subtitle">Experiência Profissional</h2>
+<h2 class="section-subtitle">Profissional</h2>
 
 <div class="timeline">
 
@@ -36,7 +36,7 @@ permalink: /experience
 
 </div>
 
-<h2 class="section-subtitle">Experiência em Pesquisa</h2>
+<h2 class="section-subtitle">Pesquisa</h2>
 
 <div class="timeline">
 
@@ -82,7 +82,7 @@ permalink: /experience
 
   <div class="timeline-item">
     <div class="timeline-period">setembro de 2025 – presente</div>
-    <div class="timeline-title">Mestrado em Ciência da Computação</div>
+    <div class="timeline-title">Mestrado, Ciência da Computação</div>
     <div class="timeline-org">Centro de Informática UFPE</div>
     <div class="timeline-location">Recife, Pernambuco, Brasil</div>
   </div>
