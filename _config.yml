@@ -1,0 +1,54 @@
+# Site
+name: "Nathalia Barbosa"
+title: "Nathalia Barbosa"
+description: "Mestranda em Ciência da Computação | Engenharia de Software e IA"
+logo: 'https://avatars.githubusercontent.com/u/74332487?v=4' 
+favicon: 'https://avatars.githubusercontent.com/u/74332487?v=4' 
+baseurl: "" 
+url: "https://nathaliafab.github.io"
+google_analytics: '' 
+disqus: '' 
+mailchimp-list: '' 
+include: ["_pages"]
+permalink: /:title/
+
+# Authors
+authors:
+  nathalia:
+    name: Nathalia Barbosa
+    display_name: Nathalia Barbosa
+    avatar: 'https://avatars.githubusercontent.com/u/74332487?v=4'
+    email: nathaliaferdab@gmail.com
+    web: https://nathaliafab.github.io
+    github: https://github.com/nathaliafab
+    linkedin: https://www.linkedin.com/in/nathaliafab
+    description: "Mestranda em Ciência da Computação no CIn-UFPE. Graduada em Engenharia da Computação. Interesses: IA, desenvolvimento de software, segurança da informação e hardware."
+
+# Plugins
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Pagination 
+paginate: 6
+paginate_path: /page:num/
+    
+# Other
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# Adsense
+adsense: "disabled"
+
+# Lazy Images
+lazyimages: "disabled"
+
+exclude: [changelog.md, LICENSE.txt, README.md, Gemfile, Gemfile.lock]
