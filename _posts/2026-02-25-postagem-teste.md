@@ -4,6 +4,7 @@ title: "Postagem teste"
 author: nathalia
 categories: [teste]
 tags: [post, exemplo]
+image: https://img.pokemondb.net/sprites/black-white/anim/normal/mew.gif
 description: "Postagem de teste para verificar funcionamento do blog."
 featured: true
 ---
