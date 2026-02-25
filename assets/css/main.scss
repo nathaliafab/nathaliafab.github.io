@@ -527,7 +527,7 @@ span.post-name a {
 .timeline::before {
   content: '';
   position: absolute;
-  left: -1rem;
+  left: 1rem;
   top: 6px;
   bottom: 6px;
   width: 2px;
@@ -554,7 +554,7 @@ span.post-name a {
 .timeline-item::before {
   content: '';
   position: absolute;
-  left: -1.06rem;
+  left: calc(-1rem - 5px);
   top: 1.2rem;
   width: 12px;
   height: 12px;
