@@ -171,13 +171,13 @@ title: Home
   {% assign content = experience_page.content %}
   
   <!-- Extrair cada seção individualmente -->
-  {% assign prof_start = content | split: 'Profissional</h2>' | last %}
+  {% assign prof_start = content | split: 'Profissional</h3>' | last %}
   {% assign prof_content = prof_start | split: '<h2 class="section-subtitle">Pesquisa</h2>' | first %}
   
-  {% assign research_start = content | split: 'Pesquisa</h2>' | last %}
+  {% assign research_start = content | split: 'Pesquisa</h3>' | last %}
   {% assign research_content = research_start | split: '<h2 class="section-subtitle">Formação Acadêmica</h2>' | first %}
   
-  {% assign academic_content = content | split: 'Formação Acadêmica</h2>' | last %}
+  {% assign academic_content = content | split: 'Formação Acadêmica</h3>' | last %}
 
   <!-- Experiência Profissional -->
   <div class="experience-category">
@@ -185,16 +185,16 @@ title: Home
     {{ prof_content }}
   </div>
 
-  <!-- Formação Acadêmica -->
-  <div class="experience-category">
-    <h3 class="experience-subtitle">Acadêmica</h3>
-    {{ academic_content }}
-  </div>
-
   <!-- Pesquisa -->
   <div class="experience-category">
     <h3 class="experience-subtitle">Pesquisa</h3>
     {{ research_content }}
+  </div>
+
+  <!-- Formação Acadêmica -->
+  <div class="experience-category">
+    <h3 class="experience-subtitle">Acadêmica</h3>
+    {{ academic_content }}
   </div>
 
 </section>

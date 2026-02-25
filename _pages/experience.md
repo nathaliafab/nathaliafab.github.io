@@ -4,7 +4,7 @@ title: Experience
 permalink: /experience
 ---
 
-<h2 class="section-subtitle">Profissional</h2>
+<h3 class="section-subtitle">Profissional</h3>
 
 <div class="timeline">
 
@@ -36,7 +36,7 @@ permalink: /experience
 
 </div>
 
-<h2 class="section-subtitle">Pesquisa</h2>
+<h3 class="section-subtitle">Pesquisa</h3>
 
 <div class="timeline">
 
@@ -76,7 +76,7 @@ permalink: /experience
 
 </div>
 
-<h2 class="section-subtitle">Formação Acadêmica</h2>
+<h3 class="section-subtitle">Formação Acadêmica</h3>
 
 <div class="timeline">
 
