@@ -47,15 +47,14 @@ title: Home
     <a href="{{ site.baseurl }}/about" class="see-all-link">Ver mais →</a>
   </div>
   {% assign about_page = site.pages | where: "title", "Sobre mim" | first %}
-  <div class="about-card">
-    {% assign content = about_page.content | strip_html | strip %}
-    {% assign sentences = content | split: '.' %}
-    {% for sentence in sentences limit:4 %}
-      {% if sentence contains 'Mestranda' or sentence contains 'principais interesses' or sentence contains 'paixão' or sentence contains 'tecnologia' %}
-        <p>{{ sentence | strip }}.</p>
-      {% endif %}
-    {% endfor %}
-  </div>
+  {% assign about_content = about_page.content %}
+  {% assign main_paragraphs = about_content | split: '</div>' | first | split: '<p>' %}
+  {% for paragraph in main_paragraphs offset:1 limit:2 %}
+    {% assign clean_p = paragraph | split: '</p>' | first | strip %}
+    {% if clean_p != '' %}
+      <p>{{ clean_p }}</p>
+    {% endif %}
+  {% endfor %}
 </section>
 
 <!-- ======================================================
@@ -153,16 +152,55 @@ title: Home
   </div>
 
   {% assign experience_page = site.pages | where: "title", "Experience" | first %}
-  {% assign experience_items = experience_page.content | split: 'timeline-item' %}
+  {% assign content = experience_page.content %}
   
+  <!-- Extrair seção profissional -->
+  {% assign professional_section = content | split: '<h2 class="section-subtitle">Profissional</h2>' | last | split: '<h2 class="section-subtitle">Pesquisa</h2>' | first %}
+  {% assign prof_items = professional_section | split: '<div class="timeline-item">' %}
+  
+  <!-- Extrair seção de pesquisa -->
+  {% assign research_section = content | split: '<h2 class="section-subtitle">Pesquisa</h2>' | last | split: '<h2 class="section-subtitle">Formação Acadêmica</h2>' | first %}
+  {% assign research_items = research_section | split: '<div class="timeline-item">' %}
+  
+  <!-- Extrair seção acadêmica -->
+  {% assign academic_section = content | split: '<h2 class="section-subtitle">Formação Acadêmica</h2>' | last %}
+  {% assign academic_items = academic_section | split: '<div class="timeline-item">' %}
+
   <div class="timeline">
-    {% for item in experience_items limit:5 offset:1 %}
+
+    <!-- Mais recente de cada seção -->
+    {% for item in prof_items limit:1 offset:1 %}
+      {% if item contains 'timeline-period' %}
+        {% assign period = item | split: 'timeline-period">' | last | split: '</div>' | first %}
+        {% assign title = item | split: 'timeline-title">' | last | split: '</div>' | first %}
+        {% assign org = item | split: 'timeline-org">' | last | split: '</div>' | first %}
+        <div class="timeline-item">
+          <div class="timeline-period">{{ period | strip }}</div>
+          <div class="timeline-title">{{ title | strip }}</div>
+          <div class="timeline-org">{{ org | strip }}</div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    {% for item in academic_items limit:1 offset:1 %}
+      {% if item contains 'timeline-period' %}
+        {% assign period = item | split: 'timeline-period">' | last | split: '</div>' | first %}
+        {% assign title = item | split: 'timeline-title">' | last | split: '</div>' | first %}
+        {% assign org = item | split: 'timeline-org">' | last | split: '</div>' | first %}
+        <div class="timeline-item">
+          <div class="timeline-period">{{ period | strip }}</div>
+          <div class="timeline-title">{{ title | strip }}</div>
+          <div class="timeline-org">{{ org | strip }}</div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    {% for item in prof_items limit:1 offset:2 %}
       {% if item contains 'timeline-period' %}
         {% assign period = item | split: 'timeline-period">' | last | split: '</div>' | first %}
         {% assign title = item | split: 'timeline-title">' | last | split: '</div>' | first %}
         {% assign org = item | split: 'timeline-org">' | last | split: '</div>' | first %}
         {% assign desc = item | split: 'timeline-desc">' | last | split: '</p>' | first %}
-        
         <div class="timeline-item">
           <div class="timeline-period">{{ period | strip }}</div>
           <div class="timeline-title">{{ title | strip }}</div>
@@ -173,6 +211,24 @@ title: Home
         </div>
       {% endif %}
     {% endfor %}
+
+    {% for item in research_items limit:1 offset:1 %}
+      {% if item contains 'timeline-period' %}
+        {% assign period = item | split: 'timeline-period">' | last | split: '</div>' | first %}
+        {% assign title = item | split: 'timeline-title">' | last | split: '</div>' | first %}
+        {% assign org = item | split: 'timeline-org">' | last | split: '</div>' | first %}
+        {% assign desc = item | split: 'timeline-desc">' | last | split: '</p>' | first %}
+        <div class="timeline-item">
+          <div class="timeline-period">{{ period | strip }}</div>
+          <div class="timeline-title">{{ title | strip }}</div>
+          <div class="timeline-org">{{ org | strip }}</div>
+          {% if desc and desc != '' %}
+            <p class="timeline-desc">{{ desc | strip }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+
   </div>
 </section>
 

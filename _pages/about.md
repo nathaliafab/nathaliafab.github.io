@@ -6,15 +6,11 @@ permalink: /about
 
 {% assign author = site.authors.nathalia %}
 
-<div class="about-card mb-4">
-
 <p>Sou <strong>Mestranda em Ciência da Computação</strong> no Centro de Informática (CIn) da Universidade Federal de Pernambuco (UFPE), onde me graduei em <strong>Engenharia da Computação</strong>. Tenho uma paixão genuína por tecnologia e busco constantemente aprofundar meus conhecimentos nas diversas vertentes da computação.</p>
 
 <p>Meus principais interesses incluem <strong>inteligência artificial</strong>, <strong>desenvolvimento de software</strong>, segurança da informação e hardware. Também sou entusiasta de <strong>código aberto</strong> e acredito na importância da colaboração e do compartilhamento de conhecimento dentro da comunidade tecnológica.</p>
 
 <p>Você pode conferir alguns dos meus projetos e contribuições no <a href="{{ author.github }}" target="_blank">GitHub</a>.</p>
-
-</div>
 
 <div class="skills-section mb-4">
 <h3>Principais Competências</h3>

@@ -315,28 +315,6 @@ a:hover {
   box-shadow: 0 14px 40px rgba(102, 126, 234, 0.22);
 }
 
-/* ============================================================
-   About Section
-   ============================================================ */
-.about-card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 20px;
-  padding: 2rem 2.5rem;
-  backdrop-filter: blur(8px);
-  box-shadow: var(--card-shadow);
-  color: var(--text-color);
-}
-
-.about-card p {
-  color: var(--text-color);
-  line-height: 1.8;
-  margin-bottom: 0.9rem;
-}
-
-.about-card p:last-child {
-  margin-bottom: 0;
-}
 
 /* ============================================================
    Blog Post Cards (postbox overrides)
@@ -377,10 +355,12 @@ a:hover {
 .blog-card .maxthumb img {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  width: 100%;
+  max-width: 100%;
   height: auto;
   max-height: 200px;
-  object-fit: cover;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
 
 .card-body {
@@ -574,7 +554,7 @@ span.post-name a {
 .timeline-item::before {
   content: '';
   position: absolute;
-  left: -0.4rem;
+  left: -0.6rem;
   top: 1.2rem;
   width: 12px;
   height: 12px;
@@ -1003,9 +983,6 @@ ul.tags li a:hover {
   }
   .homepage-section {
     padding: 2rem 0;
-  }
-  .about-card {
-    padding: 1.5rem;
   }
   .jumbotron.fortags .transpdark {
     border-radius: 16px 16px 0 0;

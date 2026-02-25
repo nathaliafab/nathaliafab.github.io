@@ -7,12 +7,12 @@ permalink: /papers
 {% assign author = site.authors.nathalia %}
 
 <div class="paper-card">
-  <div class="paper-title">Exemplo de Publicação Acadêmica <em>(em breve)</em></div>
-  <div class="paper-authors">N. Barbosa, Colaborador A, Orientador B</div>
-  <div class="paper-venue">Conference / Workshop — 2025</div>
+  <div class="paper-title">Detecção de Conflitos Semânticos com Testes Gerados por LLM</div>
+  <div class="paper-authors">Nathalia Barbosa, Paulo Borba, Léuson Silva</div>
+  <div class="paper-venue">X Simpósio Brasileiro de Testes de Software Sistemático e Automatizado (SAST) — 2025</div>
   <div class="paper-links">
-    <a href="#" class="paper-link-btn"><i class="fas fa-file-pdf"></i> PDF</a>
-    <a href="#" class="paper-link-btn"><i class="fas fa-link"></i> DOI</a>
+    <a href="https://sol.sbc.org.br/index.php/sast/article/view/36879" target="_blank" class="paper-link-btn"><i class="fas fa-file-pdf"></i> PDF</a>
+    <a href="https://doi.org/10.5753/sast.2025.13826" target="_blank" class="paper-link-btn"><i class="fas fa-link"></i> DOI</a>
   </div>
 </div>
 
