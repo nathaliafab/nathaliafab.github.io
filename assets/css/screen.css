@@ -45,14 +45,17 @@ pre {
 }
 
 .main-content {
+    flex: 1;
     min-height: 300px;
 }
 
 .site-content {
-    min-height: 60vh;
+    flex: 1;
     padding-top: 1.5rem;
     margin-top: 57px;
     transition: all 0.4s;
+    display: flex;
+    flex-direction: column;
 }
 
 section {
@@ -342,10 +345,11 @@ span.post-read-more a:hover {
     padding-bottom: 12px;
     font-size: 0.8rem;
     color: rgba(0, 0, 0, .44);
-    margin-top: 50px;
-    margin-bottom: 62px;
+    margin-top: auto;
+    margin-bottom: 0;
     position: relative;
     background: #fff;
+    flex-shrink: 0;
 }
 
 .link-dark {
@@ -793,6 +797,7 @@ iframe {
 
 .jumbotron.fortags {
     margin-top: 3rem;
+    margin-bottom: 0;
     padding: 0;
     border-radius: 0;
     background-image: url(../images/jumbotron.jpg);

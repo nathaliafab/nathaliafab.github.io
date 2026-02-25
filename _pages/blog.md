@@ -1,11 +1,10 @@
 ---
-layout: default
+layout: page
 title: Blog
 permalink: /blog
 ---
 
-<div class="section-header" style="padding-top:1rem;">
-  <h2 class="section-heading">Blog</h2>
+<div class="d-flex justify-content-end mb-3">
   <a href="{{ site.baseurl }}/categories" class="see-all-link">Ver categorias →</a>
 </div>
 

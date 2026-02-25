@@ -55,7 +55,9 @@ body {
   background: var(--bg-gradient) !important;
   background-attachment: fixed !important;
   color: var(--text-color) !important;
-  min-height: 100vh;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
   transition: background 0.4s ease, color 0.3s ease;
 }
 
@@ -155,6 +157,9 @@ a:hover {
 .site-content {
   background: transparent !important;
   padding-top: 1rem !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 /* ============================================================
