@@ -561,11 +561,16 @@ span.post-name a {
   border-radius: 50%;
   background: linear-gradient(135deg, var(--grad-1), var(--grad-3));
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .timeline-item:hover {
-  transform: translateX(5px);
   box-shadow: 0 8px 28px rgba(102, 126, 234, 0.18);
+}
+
+.timeline-item:hover::before {
+  transform: scale(1.3);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 .timeline-period {
