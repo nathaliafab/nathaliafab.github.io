@@ -49,7 +49,7 @@ ga('send', 'pageview');
 
     <!-- Begin Logo -->
     <a class="navbar-brand" href="{{ site.baseurl }}/">
-    <img src="{% if site.logo contains '://' %}{{ site.logo }}{% else %}{{ site.baseurl }}/{{ site.logo }}{% endif %}" alt="{{ site.name }}">
+    {{ site.name }}
     </a>
     <!-- End Logo -->
 
@@ -92,6 +92,7 @@ ga('send', 'pageview');
 
 <div class="container">
 
+{% unless page.layout == 'post' %}
 <!-- Site Title
 ================================================== -->
 <div class="mainheading">
@@ -100,6 +101,7 @@ ga('send', 'pageview');
         {{ site.description }}
     </p>
 </div>
+{% endunless %}
 
 <!-- Content
 ================================================== -->
