@@ -5,6 +5,11 @@ permalink: "/categories.html"
 ---
 
 <section>
+{% if page.title %}
+<div class="section-header mb-4">
+  <h2 class="section-heading">{{ page.title }}</h2>
+</div>
+{% endif %}
 <div class="row listrecent">
 {% for category in site.categories %}
 <div class="col-md-12 mt-4">

@@ -2,11 +2,13 @@
 
 
 <style>
-    .lunrsearchresult .title {color: #d9230f;}
-    .lunrsearchresult .url {color: silver;}
-    .lunrsearchresult a {display: block; color: #777;}
-    .lunrsearchresult a:hover, .lunrsearchresult a:focus {text-decoration: none;}
-    .lunrsearchresult a:hover .title {text-decoration: underline;}
+    .lunrsearchresult .title { color: var(--link-color, #5b6ef5); font-weight: 600; }
+    .lunrsearchresult .url { color: var(--text-muted, #6b7280); font-size: 0.75rem; word-break: break-all; }
+    .lunrsearchresult a { display: block; color: var(--text-color, #1a1a2e); text-decoration: none; padding: 0.6rem 0.75rem; border-radius: 10px; transition: background 0.2s ease; }
+    .lunrsearchresult a:hover, .lunrsearchresult a:focus { background: var(--badge-bg, rgba(102,126,234,0.10)); text-decoration: none; }
+    .lunrsearchresult a:hover .title { text-decoration: underline; }
+    .lunrsearchresult .body { color: var(--text-muted, #6b7280); font-size: 0.83rem; line-height: 1.5; display: block; margin-top: 2px; }
+    #lunrsearchresults ul { list-style: none; padding: 0; margin: 0; }
 </style>
 
 
