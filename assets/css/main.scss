@@ -451,23 +451,11 @@ span.post-name a {
    Papers Section
    ============================================================ */
 .paper-card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 1.4rem 1.6rem;
-  backdrop-filter: blur(8px);
-  box-shadow: var(--card-shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 1rem;
 }
 
 .paper-card:last-child {
   margin-bottom: 0;
-}
-
-.paper-card:hover {
-  transform: translateX(6px);
-  box-shadow: 0 8px 28px rgba(102, 126, 234, 0.18);
 }
 
 .paper-title {
@@ -888,12 +876,28 @@ span.post-name a {
    Section Title (archive/categories pages)
    ============================================================ */
 .section-title h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
   color: var(--text-color);
-  border-bottom-color: var(--section-divider);
+  margin: 0 0 1.75rem 0;
+  position: relative;
+  display: inline-block;
+  border-bottom: none;
+}
+
+.section-title h2::after {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 40px;
+  background: linear-gradient(90deg, var(--grad-1), var(--grad-3));
+  border-radius: 2px;
+  margin-top: 5px;
 }
 
 .section-title span {
-  border-bottom-color: var(--text-color);
+  font-weight: 800;
+  color: var(--text-color);
 }
 
 /* ============================================================
@@ -1037,7 +1041,6 @@ button,
 .see-all-link,
 .paper-link-btn,
 .project-link-btn,
-.paper-card,
 .project-card,
 .event-card,
 .timeline-item,
@@ -1211,11 +1214,10 @@ ul.tags li a,
 
 [data-theme="dark"] .section-title h2 {
   color: var(--text-color) !important;
-  border-bottom-color: var(--section-divider) !important;
 }
 
 [data-theme="dark"] .section-title span {
-  border-bottom-color: var(--text-muted) !important;
+  color: var(--text-color) !important;
 }
 
 [data-theme="dark"] .jumbotron.fortags h2 {
