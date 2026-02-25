@@ -168,6 +168,7 @@ ga('send', 'pageview');
 
 <!-- Categories Jumbotron
 ================================================== -->
+{% if page.title == 'Blog' or page.title == 'Categories' or page.layout == 'categories' %}
 <div class="jumbotron fortags">
 	<div class="d-md-flex h-100">
 		<div class="col-md-4 transpdark align-self-center text-center h-100">
@@ -190,6 +191,7 @@ ga('send', 'pageview');
 		</div>
 	</div>
 </div>
+{% endif %}
     
 </div>
 
