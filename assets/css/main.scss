@@ -348,16 +348,39 @@ a:hover {
 .card {
   background: var(--card-bg) !important;
   border: 1px solid var(--card-border) !important;
-  border-radius: 16px !important;
+  border-radius: 20px !important;
   backdrop-filter: blur(8px);
   box-shadow: var(--card-shadow) !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease !important;
   color: var(--text-color) !important;
+  overflow: hidden;
 }
 
 .card:hover {
   transform: translateY(-5px) !important;
   box-shadow: 0 14px 40px rgba(102, 126, 234, 0.22) !important;
+}
+
+/* Clickable card link styling */
+.card-link {
+  text-decoration: none !important;
+  color: inherit !important;
+  display: block;
+}
+
+.card-link:hover {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+/* Image styling with rounded corners */
+.maxthumb img {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
 }
 
 .card-body {
@@ -369,14 +392,10 @@ a:hover {
   border-top: 1px solid var(--card-border) !important;
 }
 
-h2.card-title a,
-h2.card-title a:visited {
+h2.card-title,
+h2.card-title a {
   color: var(--text-color) !important;
   text-decoration: none;
-}
-
-h2.card-title a:hover {
-  color: var(--link-color) !important;
 }
 
 h4.card-text {
