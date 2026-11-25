@@ -1,0 +1,93 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../data/types';
+import { t, localePath } from '../i18n/ui';
+import { profile } from '../data/profile';
+
+interface Props {
+  lang: Lang;
+  altHref: string | null;
+  hasBlog: boolean;
+}
+const { lang, altHref, hasBlog } = Astro.props;
+const ui = t(lang);
+const home = localePath('/', lang);
+const otherLang: Lang = lang === 'pt' ? 'en' : 'pt';
+const links = [
+  { id: 'about', label: ui.nav.about },
+  { id: 'stack', label: ui.nav.stack },
+  { id: 'projects', label: ui.nav.projects },
+  { id: 'papers', label: ui.nav.papers },
+  { id: 'events', label: ui.nav.events },
+  { id: 'contact', label: ui.nav.contact },
+];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={home}>{profile.name}</a>
+    <nav class="nav" aria-label="Principal">
+      <ul>
+        {links.map((l) => <li><a href={`${home}#${l.id}`} data-section={l.id}>{l.label}</a></li>)}
+        {hasBlog && <li><a href="/blog">{ui.nav.blog}</a></li>}
+      </ul>
+    </nav>
+    <div class="header-actions">
+      {
+        altHref && (
+          <a class="pill" href={altHref} hreflang={otherLang} lang={otherLang} aria-label={ui.switchLangLabel}>
+            <Icon name="lucide:languages" aria-hidden="true" />
+            <span>{ui.switchLang}</span>
+          </a>
+        )
+      }
+      <button class="pill icon-only" id="theme-toggle" type="button" aria-label={ui.toggleTheme}>
+        <Icon name="lucide:sun" class="icon-sun" aria-hidden="true" />
+        <Icon name="lucide:moon" class="icon-moon" aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Alternar tema
+  const button = document.getElementById('theme-toggle');
+  button?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch {}
+  });
+
+  // Destaca no menu a seção que está na tela
+  const links = new Map<string, HTMLAnchorElement>();
+  document.querySelectorAll<HTMLAnchorElement>('.nav a[data-section]').forEach((a) => links.set(a.dataset.section!, a));
+  const sections = [...links.keys()].map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el);
+
+  function updateActive() {
+    const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+    // A seção atual é a última cujo topo já passou de 35% da altura da tela
+    const line = window.innerHeight * 0.35;
+    let current: HTMLElement | undefined = atBottom ? sections.at(-1) : undefined;
+    if (!current) {
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= line) current = section;
+      }
+    }
+    links.forEach((a, id) => (id === current?.id ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+  }
+
+  let ticking = false;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        updateActive();
+        ticking = false;
+      });
+    },
+    { passive: true },
+  );
+  updateActive();
+</script>

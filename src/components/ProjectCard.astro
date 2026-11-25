@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../data/types';
+import type { Project } from '../data/projects';
+import { t } from '../i18n/ui';
+
+interface Props {
+  project: Project;
+  lang: Lang;
+}
+const { project, lang } = Astro.props;
+const ui = t(lang);
+---
+
+<article class="card project" id={`project-${project.id}`}>
+  <Image
+    class="project-cover"
+    src={project.image}
+    alt={`${ui.projectCover} ${project.name}`}
+    widths={[480, 800]}
+    sizes="(min-width: 62rem) 19rem, (min-width: 40rem) 45vw, 90vw"
+    loading="lazy"
+    decoding="async"
+  />
+  <div class="project-body">
+    <header>
+      <h3>{project.name}</h3>
+      <span class="muted">{project.year}</span>
+    </header>
+    {project.context && <p class="project-context">{project.context[lang]}</p>}
+    <p class="project-desc">{project.description[lang]}</p>
+    <ul class="chips" aria-label="Tags">
+      {project.tags.map((tag) => <li>{tag}</li>)}
+    </ul>
+    <p class="card-links">
+      <a class="btn" href={project.links.repo} target="_blank" rel="noopener">
+        <Icon name="fa6-brands:github" aria-hidden="true" /> {ui.code}
+      </a>
+      {project.links.demo && (
+        <a class="btn" href={project.links.demo} target="_blank" rel="noopener">
+          <Icon name="lucide:arrow-up-right" aria-hidden="true" /> {ui.demo}
+        </a>
+      )}
+    </p>
+  </div>
+</article>

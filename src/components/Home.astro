@@ -1,0 +1,144 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../data/types';
+import { profile } from '../data/profile';
+import { projects } from '../data/projects';
+import { papers, awards } from '../data/papers';
+import { events } from '../data/events';
+import { t, formatMonth, localePath } from '../i18n/ui';
+import { getPosts } from '../i18n/blog';
+import Section from './Section.astro';
+import SocialLinks from './SocialLinks.astro';
+import StackGrid from './StackGrid.astro';
+import ProjectCard from './ProjectCard.astro';
+import Contact from './Contact.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+
+const posts = (await getPosts()).slice(0, 3);
+const related = (e: (typeof events)[number]) => projects.find((p) => p.id === e.project);
+const relatedPaper = (e: (typeof events)[number]) => papers.find((p) => p.id === e.paper);
+const sortedEvents = [...events].sort((a, b) => b.date.localeCompare(a.date));
+---
+
+<div class="container">
+  <section class="hero" aria-labelledby="hero-name">
+    <div class="avatar-wrapper">
+      <img class="avatar" src={profile.avatar} alt="" width="160" height="160" fetchpriority="high" referrerpolicy="no-referrer" />
+      <span class="avatar-emoji" aria-hidden="true">👩‍💻</span>
+    </div>
+    <div class="hero-text">
+      <h1 id="hero-name">{profile.name}</h1>
+      <p class="hero-role">{profile.role[lang]}</p>
+      <p class="hero-tagline">{profile.tagline[lang]}</p>
+      <SocialLinks lang={lang} />
+      <p class="hero-cta">
+        <a class="btn primary" href={`${localePath('/', lang)}#projects`}>{ui.cta.projects}</a>
+        <a class="btn" href={`${localePath('/', lang)}#contact`}><Icon name="lucide:mail" aria-hidden="true" /> {ui.cta.contact}</a>
+      </p>
+    </div>
+  </section>
+
+  <Section id="about" title={ui.sections.about}>
+    <div class="prose">
+      {profile.about[lang].map((p) => <p>{p}</p>)}
+    </div>
+  </Section>
+
+  <Section id="stack" title={ui.sections.stack}>
+    <StackGrid lang={lang} />
+  </Section>
+
+  <Section id="projects" title={ui.sections.projects}>
+    <div class="grid">
+      {projects.map((p) => <ProjectCard project={p} lang={lang} />)}
+    </div>
+    <p class="more">
+      <a class="btn" href={`${profile.links.github}?tab=repositories`} target="_blank" rel="noopener"><Icon name="fa6-brands:github" aria-hidden="true" /> {ui.moreProjects}</a>
+    </p>
+  </Section>
+
+  <Section id="papers" title={ui.sections.papers}>
+    {
+      papers.map((p) => (
+        <article class="card paper">
+          <h3>{p.title[lang]}</h3>
+          <p class="paper-authors">
+            {p.authors.map((a, i) => <Fragment>{i > 0 && ', '}{a === profile.name ? <strong>{a}</strong> : a}</Fragment>)}
+          </p>
+          <p class="muted">{p.venue[lang]} · {p.year}</p>
+          {p.note && <p><span class="badge">{p.note[lang]}</span></p>}
+          <p class="card-links">
+            {p.links.paper && <a class="btn" href={p.links.paper} target="_blank" rel="noopener"><Icon name="lucide:file-text" aria-hidden="true" /> {ui.paper}</a>}
+            {p.links.doi && <a class="btn" href={p.links.doi} target="_blank" rel="noopener"><Icon name="lucide:link" aria-hidden="true" /> {ui.paperDoi}</a>}
+            {p.links.data && <a class="btn" href={p.links.data} target="_blank" rel="noopener"><Icon name="lucide:database" aria-hidden="true" /> {ui.paperData}</a>}
+          </p>
+        </article>
+      ))
+    }
+
+    <h3 class="subtitle">{ui.sections.awards}</h3>
+    <ul class="awards">
+      {
+        awards.map((a) => (
+          <li>
+            <Icon name="lucide:trophy" aria-hidden="true" />
+            <span>
+              <strong>{a.title[lang]}</strong>
+              <span class="muted"> · {a.detail[lang]}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="events" title={ui.sections.events}>
+    <ul class="events">
+      {
+        sortedEvents.map((e) => (
+          <li class="event">
+            <time class="event-date" datetime={e.date}>{formatMonth(e.date, lang)}</time>
+            <div>
+              <h3>{e.url ? <a href={e.url} target="_blank" rel="noopener">{e.title[lang]}</a> : e.title[lang]}</h3>
+              {(e.detail || e.place) && (
+                <p class="muted">{[e.detail?.[lang], e.place?.[lang]].filter(Boolean).join(' · ')}</p>
+              )}
+              {relatedPaper(e)?.links.paper && (
+                <p class="muted">
+                  <Icon name="lucide:file-text" aria-hidden="true" /> <a href={relatedPaper(e)!.links.paper} target="_blank" rel="noopener">{relatedPaper(e)!.title[lang]}</a>
+                </p>
+              )}
+              {related(e) && (
+                <p class="muted">
+                  <Icon name="lucide:folder-git-2" aria-hidden="true" /> <a href={`#project-${related(e)!.id}`}>{related(e)!.name}</a>
+                </p>
+              )}
+            </div>
+            <span class="badge">{ui.eventTypes[e.type]}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  {
+    posts.length > 0 && (
+      <Section id="blog" title={ui.sections.blog}>
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.id}`}>{post.data.title}</a>
+              <p class="muted">{post.data.description}</p>
+            </li>
+          ))}
+        </ul>
+        <p><a class="btn" href="/blog">{ui.blog.allPosts}</a></p>
+      </Section>
+    )
+  }
+
+  <Contact lang={lang} />
+</div>

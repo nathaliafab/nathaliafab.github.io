@@ -1,0 +1,80 @@
+---
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import { profile } from '../data/profile';
+import type { Lang } from '../data/types';
+import { t, languages, localePath } from '../i18n/ui';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getPosts } from '../i18n/blog';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  /** Caminho da página sem prefixo de idioma, ex.: "/" ou "/blog". */
+  path?: string;
+  /** Marque como true nas páginas que existem nos dois idiomas. */
+  bilingual?: boolean;
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>;
+}
+
+const { lang, title, description, path = '/', bilingual = false, type = 'website', jsonLd } = Astro.props;
+
+const ui = t(lang);
+const fullTitle = title ? `${title} | ${profile.name}` : `${profile.name} | ${profile.role[lang]}`;
+const metaDescription = description ?? profile.description[lang];
+const canonical = new URL(localePath(path, bilingual ? lang : 'en'), Astro.site).href;
+const otherLang: Lang = lang === 'pt' ? 'en' : 'pt';
+const altHref = bilingual ? localePath(path, otherLang) : null;
+const hasBlog = (await getPosts()).length > 0;
+---
+
+<!doctype html>
+<html lang={ui.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={profile.name} href="/rss.xml" />
+    {
+      bilingual &&
+        languages.map((l) => (
+          <link rel="alternate" hreflang={l === 'pt' ? 'pt-BR' : 'en'} href={new URL(localePath(path, l), Astro.site).href} />
+        ))
+    }
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'pt' ? 'pt_BR' : 'en_US'} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#f6f4ff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d0a1f" media="(prefers-color-scheme: dark)" />
+    <meta name="generator" content={Astro.generator} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    <!-- Aplica o tema antes da primeira pintura (evita "flash" claro/escuro) -->
+    <script is:inline>
+      (function () {
+        var saved = null;
+        try { saved = localStorage.getItem('theme'); } catch (e) {}
+        var theme = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{ui.skip}</a>
+    <Header lang={lang} altHref={altHref} hasBlog={hasBlog} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

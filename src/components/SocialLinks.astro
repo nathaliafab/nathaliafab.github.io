@@ -1,0 +1,31 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../data/types';
+import { profile } from '../data/profile';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+
+const items = [
+  { key: 'email', href: `mailto:${profile.email}`, icon: 'lucide:mail' },
+  { key: 'github', href: profile.links.github, icon: 'fa6-brands:github' },
+  { key: 'linkedin', href: profile.links.linkedin, icon: 'fa6-brands:linkedin-in' },
+  { key: 'cin', href: profile.links.cin, icon: 'lucide:university' },
+  { key: 'lattes', href: profile.links.lattes, icon: 'academicons:lattes' },
+  { key: 'orcid', href: profile.links.orcid, icon: 'academicons:orcid' },
+] as const;
+---
+
+<ul class="social">
+  {
+    items.map((i) => (
+      <li>
+        <a href={i.href} aria-label={ui.social[i.key]} title={ui.social[i.key]} rel={i.key === 'email' ? undefined : 'noopener'} target={i.key === 'email' ? undefined : '_blank'}>
+          <Icon name={i.icon} aria-hidden="true" />
+        </a>
+      </li>
+    ))
+  }
+</ul>

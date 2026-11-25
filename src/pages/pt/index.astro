@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import Home from '../../components/Home.astro';
+import { profile } from '../../data/profile';
+
+const lang = 'pt';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle: profile.role[lang],
+  url: new URL('/pt/', Astro.site).href,
+  email: `mailto:${profile.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Recife', addressRegion: 'PE', addressCountry: 'BR' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Universidade Federal de Pernambuco' },
+  sameAs: [profile.links.github, profile.links.linkedin, profile.links.orcid, profile.links.lattes],
+};
+---
+
+<Base lang={lang} path="/" bilingual jsonLd={jsonLd}>
+  <Home lang={lang} />
+</Base>
