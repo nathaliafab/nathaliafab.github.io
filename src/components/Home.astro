@@ -33,7 +33,7 @@ const sortedEvents = [...events].sort((a, b) => b.date.localeCompare(a.date));
         <p class="hero-role">{profile.role[lang]}</p>
         <div class="hp" aria-hidden="true"><span>HP</span><span class="hp-bar"><i></i></span></div>
       </div>
-      <picture class="sprite-wrap foe"><source media="(prefers-reduced-motion: reduce)" srcset="/pokemon/caterpie.png" /><img class="sprite foe" src="/pokemon/caterpie.gif" alt="" width="56" height="56" /></picture>
+      <picture class="sprite-wrap foe"><source media="(prefers-reduced-motion: reduce)" srcset="/pokemon/caterpie.png" /><img class="sprite foe" data-roll src="/pokemon/caterpie.gif" alt="" width="56" height="56" /></picture>
       <picture class="sprite-wrap ally"><source media="(prefers-reduced-motion: reduce)" srcset="/pokemon/vileplume.png" /><img class="sprite ally" src="/pokemon/vileplume.gif" alt="" width="56" height="56" /></picture>
       <div class="plate plate-ally">
         <SocialLinks lang={lang} />
@@ -55,7 +55,7 @@ const sortedEvents = [...events].sort((a, b) => b.date.localeCompare(a.date));
     <div class="card about-card">
       <div class="about-side">
         <img class="avatar" src={profile.avatar} alt="" width="144" height="144" loading="lazy" referrerpolicy="no-referrer" />
-        <picture class="sprite-wrap side"><source media="(prefers-reduced-motion: reduce)" srcset="/pokemon/hoppip.png" /><img class="sprite side" src="/pokemon/hoppip.gif" alt="" width="56" height="56" /></picture>
+        <picture class="sprite-wrap side"><source media="(prefers-reduced-motion: reduce)" srcset="/pokemon/hoppip.png" /><img class="sprite side" data-roll src="/pokemon/hoppip.gif" alt="" width="56" height="56" /></picture>
       </div>
       <div class="prose">
         {profile.about[lang].map((p) => <p>{p}</p>)}
@@ -211,5 +211,30 @@ const sortedEvents = [...events].sort((a, b) => b.date.localeCompare(a.date));
     };
     search.addEventListener('input', apply);
     tagSel.addEventListener('change', apply);
+  })();
+
+  (() => {
+    const base = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/';
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const SHINY_CHANCE = 1 / 16;
+    const MAX = 251;
+    const taken = new Set([45]);
+    const pick = () => {
+      let id = 0;
+      do id = 1 + Math.floor(Math.random() * MAX); while (taken.has(id));
+      taken.add(id);
+      return id;
+    };
+    document.querySelectorAll<HTMLImageElement>('img[data-roll]').forEach((img) => {
+      const id = pick();
+      const shiny = Math.random() < SHINY_CHANCE ? 'shiny/' : '';
+      const url = reduce ? `${base}transparent/${shiny}${id}.png` : `${base}animated/${shiny}${id}.gif`;
+      const next = new Image();
+      next.onload = () => {
+        img.closest('picture')?.querySelector('source')?.remove();
+        img.src = url;
+      };
+      next.src = url;
+    });
   })();
 </script>
