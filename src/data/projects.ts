@@ -360,8 +360,8 @@ export const projects: Project[] = [
       en: "Platformer game inspired by Chrome Dino, written in C with the raylib library. The player dodges enemies in the Forest of Decision and then fights the boss ACMáquina and its army of assemblies, full of references to life at CIn.",
     },
     context: {
-      pt: 'Disciplina de Introdução à Programação (IF669), CIn-UFPE, equipe de 5 pessoas',
-      en: 'Intro to Programming course (IF669), CIn-UFPE, team of 5',
+      pt: 'Disciplina de Introdução à Programação (IF669), CIn-UFPE',
+      en: 'Intro to Programming course (IF669), CIn-UFPE',
     },
     tags: ['C', 'raylib', 'Game Dev'],
     captions: {
