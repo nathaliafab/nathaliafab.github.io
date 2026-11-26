@@ -7,9 +7,11 @@ const ui = t(lang);
 ---
 
 <Base lang={lang} title={ui.notFound.title}>
-  <div class="container narrow center">
-    <h1>{ui.notFound.title}</h1>
-    <p>{ui.notFound.text}</p>
-    <p><a class="btn primary" href="/">{ui.notFound.home}</a></p>
+  <div class="container">
+    <h1 class="page-title">{ui.notFound.title}</h1>
+    <div class="card center">
+      <p>{ui.notFound.text}</p>
+      <p><a class="btn primary" href="/">{ui.notFound.home}</a></p>
+    </div>
   </div>
 </Base>

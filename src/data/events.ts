@@ -1,8 +1,8 @@
 import type { L } from './types';
 
-export type EventType = 'talk' | 'hackathon' | 'award' | 'conference';
+type EventType = 'talk' | 'hackathon' | 'award' | 'conference';
 
-export interface EventItem {
+interface EventItem {
   id: string;
   /** AAAA-MM */
   date: string;

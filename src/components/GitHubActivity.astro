@@ -1,0 +1,88 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../data/types';
+import { profile } from '../data/profile';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const user = profile.links.github.split('/').pop()!;
+
+interface Day { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 }
+
+// Buscado no build (sem token). Se a API falhar, a seção simplesmente não aparece.
+let days: Day[] = [];
+try {
+  const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${user}?y=last`, { signal: AbortSignal.timeout(8000) });
+  if (res.ok) days = ((await res.json()) as { contributions: Day[] }).contributions;
+} catch {}
+
+const total = days.reduce((sum, d) => sum + d.count, 0);
+
+// Sequência atual: conta para trás; se hoje ainda está zerado, começa de ontem
+let streak = 0;
+for (let i = days.length - 1; i >= 0; i--) {
+  if (days[i].count > 0) streak++;
+  else if (i === days.length - 1) continue;
+  else break;
+}
+
+// Preenche o início para a primeira coluna começar no domingo
+const lead = days.length ? new Date(days[0].date + 'T00:00:00Z').getUTCDay() : 0;
+const cells: (Day | null)[] = [...Array(lead).fill(null), ...days];
+const weeks = Array.from({ length: Math.ceil(cells.length / 7) }, (_, w) => cells.slice(w * 7, w * 7 + 7));
+
+const monthNames = ui.months;
+let lastMonth = -1;
+const labels = weeks.map((week) => {
+  const first = week.find(Boolean);
+  if (!first) return '';
+  const m = new Date(first.date + 'T00:00:00Z').getUTCMonth();
+  if (m === lastMonth) return '';
+  lastMonth = m;
+  return monthNames[m];
+});
+const fmt = new Intl.NumberFormat(lang === 'pt' ? 'pt-BR' : 'en');
+---
+
+{
+  days.length > 0 && (
+    <div class="card activity">
+      <div class="activity-head">
+        <div>
+          <h3>{ui.activity.title}</h3>
+          <p class="muted">{ui.activity.summary(fmt.format(total), streak)}</p>
+        </div>
+        <a class="btn" href={profile.links.github} target="_blank" rel="noopener">
+          <Icon name="fa6-brands:github" aria-hidden="true" /> @{user}
+        </a>
+      </div>
+
+      <div class="activity-scroll">
+        <div class="activity-graph" style={`--weeks:${weeks.length}`}>
+          <div class="activity-months" aria-hidden="true">
+            {labels.map((l) => <span>{l}</span>)}
+          </div>
+          <div class="activity-grid" role="img" aria-label={ui.activity.summary(fmt.format(total), streak)}>
+            {
+              weeks.map((week) => (
+                <div class="activity-week">
+                  {week.map((d) =>
+                    d ? <span class={`day l${d.level}`} title={ui.activity.day(d.count, d.date)} /> : <span class="day empty" />
+                  )}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="activity-legend muted" aria-hidden="true">
+        {ui.activity.less}
+        {[0, 1, 2, 3, 4].map((l) => <span class={`day l${l}`} />)}
+        {ui.activity.more}
+      </div>
+    </div>
+  )
+}

@@ -1,0 +1,114 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Lang } from '../data/types';
+import { profile } from '../data/profile';
+import { t } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const m = ui.contactModal;
+---
+
+<dialog
+  class="contact-dialog"
+  id="contact-dialog"
+  aria-labelledby="contact-dialog-title"
+  data-email={profile.email}
+  data-need={m.needMessage}
+  data-copied={m.copied}
+>
+  <form class="contact-form" id="contact-form" novalidate>
+    <header class="contact-head">
+      <h3 id="contact-dialog-title">{m.title}</h3>
+      <button type="button" class="pill icon-only" data-close aria-label={ui.close}>
+        <Icon name="lucide:x" aria-hidden="true" />
+      </button>
+    </header>
+    <p class="muted contact-to">{m.to}: <strong>{profile.email}</strong></p>
+
+    <label>
+      <span>{m.name}</span>
+      <input name="name" type="text" autocomplete="name" />
+    </label>
+    <label>
+      <span>{m.email}</span>
+      <input name="email" type="email" autocomplete="email" />
+    </label>
+    <label>
+      <span>{m.subject}</span>
+      <input name="subject" type="text" value={m.defaultSubject} />
+    </label>
+    <label class="msg">
+      <span>{m.message}</span>
+      <textarea name="message" rows="4" required></textarea>
+    </label>
+
+    <p class="contact-status" id="contact-status" role="status" aria-live="polite"></p>
+
+    <p class="muted contact-hint">{m.draftHint}</p>
+    <div class="contact-drafts">
+      <button type="button" class="btn" data-draft="gmail"><Icon name="simple-icons:gmail" aria-hidden="true" /> {m.gmail}</button>
+      <button type="button" class="btn" data-draft="mailto"><Icon name="lucide:mail" aria-hidden="true" /> {m.mail}</button>
+      <button type="button" class="btn" data-draft="copy" id="contact-copy"><Icon name="lucide:copy" aria-hidden="true" /> {m.copy}</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('contact-dialog') as HTMLDialogElement | null;
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+
+  if (dialog && form) {
+    const status = document.getElementById('contact-status')!;
+    const field = (n: string) => form.elements.namedItem(n) as HTMLInputElement;
+    const to = dialog.dataset.email!;
+
+    const compose = () => {
+      const name = field('name').value.trim();
+      const email = field('email').value.trim();
+      const subject = field('subject').value.trim();
+      const msg = field('message').value.trim();
+      const sig = name || email ? `\n\n— ${[name, email && `<${email}>`].filter(Boolean).join(' ')}` : '';
+      return { subject, body: msg + sig, msg };
+    };
+    const say = (text: string, bad = false) => {
+      status.textContent = text;
+      status.dataset.bad = bad ? 'true' : 'false';
+    };
+
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('[data-contact-open]')) {
+        e.preventDefault();
+        say('');
+        dialog.showModal();
+        field('message').focus();
+        return;
+      }
+      if (target === dialog || target.closest('#contact-dialog [data-close]')) dialog.close();
+    });
+
+    form.addEventListener('click', async (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-draft]');
+      if (!btn) return;
+      const { subject, body, msg } = compose();
+      if (!msg) return say(dialog.dataset.need!, true);
+      say('');
+      const kind = btn.dataset.draft;
+      if (kind === 'gmail') {
+        open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank', 'noopener');
+      } else if (kind === 'mailto') {
+        location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      } else {
+        try {
+          await navigator.clipboard.writeText(`${subject}\n\n${body}`);
+          say(dialog.dataset.copied!);
+        } catch {}
+      }
+    });
+
+    // Enter no campo de texto não deve enviar nada: só os botões de rascunho
+    form.addEventListener('submit', (e) => e.preventDefault());
+  }
+</script>

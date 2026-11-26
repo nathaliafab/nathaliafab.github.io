@@ -5,8 +5,8 @@ export const profile = {
   email: 'nathaliaferdab@gmail.com',
   avatar: 'https://avatars.githubusercontent.com/u/74332487?v=4',
   location: {
-    pt: 'Recife, Pernambuco, Brasil',
-    en: 'Recife, Pernambuco, Brazil',
+    pt: 'Recife, PE, Brasil',
+    en: 'Recife, PE, Brazil',
   } satisfies L,
   role: {
     pt: 'Engenheira de Software Backend',

@@ -39,8 +39,8 @@ export const papers: Paper[] = [
     },
     authors: ['Nathalia Barbosa', 'Paulo Borba', 'Léuson Da Silva'],
     venue: {
-      pt: 'X Simpósio Brasileiro de Testes de Software Sistemático e Automatizado (SAST), CBSoft 2025',
-      en: 'X Brazilian Symposium on Systematic and Automated Software Testing (SAST), CBSoft 2025',
+      pt: 'X Simpósio Brasileiro de Testes de Software Sistemático e Automatizado (SAST), CBSoft',
+      en: 'X Brazilian Symposium on Systematic and Automated Software Testing (SAST), CBSoft',
     },
     year: '2025',
     note: { pt: 'Distinguished Paper Award', en: 'Distinguished Paper Award' },

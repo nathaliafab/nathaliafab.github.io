@@ -6,7 +6,6 @@ import agenterevisa from '../assets/projects/agenterevisa.png';
 import wordlex86 from '../assets/projects/wordlex86.png';
 import fantasylab from '../assets/projects/fantasylab.png';
 import letterboxcin from '../assets/projects/letterboxcin.png';
-import site from '../assets/projects/site.png';
 
 export interface Project {
   id: string;
@@ -19,6 +18,8 @@ export interface Project {
   /** Contexto (hackathon, disciplina...) */
   context?: L;
   links: { repo: string; demo?: string };
+  /** Legendas das fotos extras em src/assets/projects/<id>/, pelo nome do arquivo sem o número e a extensão. */
+  captions?: Record<string, L>;
 }
 
 // Para adicionar um projeto: coloque a capa em src/assets/projects/, importe acima e copie um item abaixo.
@@ -37,6 +38,16 @@ export const projects: Project[] = [
       en: 'Converge Challenge hackathon, team of 4',
     },
     tags: ['Next.js', 'TypeScript', 'Supabase', 'LangChain', 'OpenAI'],
+    captions: {
+      'pagina-inicial': { pt: 'Página inicial', en: 'Home page' },
+      'perguntas-frequentes': { pt: 'Perguntas frequentes', en: 'FAQ' },
+      'painel-visao-geral': { pt: 'Painel: visão geral', en: 'Dashboard overview' },
+      'lista-de-oportunidades': { pt: 'Lista de oportunidades', en: 'Opportunities list' },
+      'detalhe-da-oportunidade': { pt: 'Detalhe da oportunidade', en: 'Opportunity details' },
+      'leitura-do-edital': { pt: 'Leitura do edital', en: 'Notice reading' },
+      'documentos-exigidos': { pt: 'Documentos exigidos', en: 'Required documents' },
+      'perfil-da-empresa': { pt: 'Perfil da empresa', en: 'Company profile' },
+    },
     links: { repo: 'https://github.com/ligiaferro/peneir.IA' },
   },
   {
@@ -61,6 +72,12 @@ export const projects: Project[] = [
       en: 'Wordle clone written from scratch in x86 assembly (NASM) and run on QEMU. Built solo, without AI help and just for fun: it uses BIOS interrupts, VGA graphics and picks the word with the CPU timestamp counter. Low-level programming sharpened my control flow and programming logic.',
     },
     tags: ['Assembly', 'NASM', 'QEMU', 'Docker'],
+    captions: {
+      'menu-inicial': { pt: 'Menu inicial', en: 'Title menu' },
+      'tentativa': { pt: 'Tentativa', en: 'Guess attempt' },
+      'vitoria': { pt: 'Vitória', en: 'Win screen' },
+      'derrota': { pt: 'Derrota', en: 'Lose screen' },
+    },
     links: { repo: 'https://github.com/nathaliafab/WordleX86' },
   },
   {
@@ -77,6 +94,14 @@ export const projects: Project[] = [
       en: 'Treasure Hacks 3.5 hackathon, team of 3',
     },
     tags: ['React', 'OpenAI API', 'Prompt engineering'],
+    captions: {
+      'pagina-inicial': { pt: 'Página inicial', en: 'Home page' },
+      'gerador-de-personagem': { pt: 'Gerador de personagem', en: 'Character generator' },
+      'personagem-elfo': { pt: 'Personagem gerado: elfo bardo', en: 'Generated character: elf bard' },
+      'personagem-medica': { pt: 'Personagem gerado: médica', en: 'Generated character: doctor' },
+      'gerador-de-historia': { pt: 'Gerador de história', en: 'Story generator' },
+      'historia-cyberpunk': { pt: 'História gerada: cyberpunk', en: 'Generated story: cyberpunk' },
+    },
     links: {
       repo: 'https://github.com/nathaliafab/FantasyLab',
       demo: 'https://fantasylab.netlify.app/',
@@ -97,17 +122,5 @@ export const projects: Project[] = [
     },
     tags: ['React', 'TypeScript', 'Prisma', 'TMDB API'],
     links: { repo: 'https://github.com/SarahLMelo/ess-review-share' },
-  },
-  {
-    id: 'site',
-    name: 'nathaliafab.github.io',
-    year: '2026',
-    image: site,
-    description: {
-      pt: 'Este site. Feito com Astro e TypeScript: um único conjunto de dados alimenta todas as seções, em português e inglês, com tema claro/escuro e sem JavaScript pesado.',
-      en: 'This site. Built with Astro and TypeScript: a single set of data feeds every section, in Portuguese and English, with light/dark theme and no heavy JavaScript.',
-    },
-    tags: ['Astro', 'TypeScript', 'GitHub Actions'],
-    links: { repo: 'https://github.com/nathaliafab/nathaliafab.github.io' },
   },
 ];

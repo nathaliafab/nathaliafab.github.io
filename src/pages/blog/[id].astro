@@ -17,12 +17,14 @@ const fmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
 ---
 
 <Base lang={lang} title={post.data.title} description={post.data.description} path={`/blog/${post.id}`} type="article">
-  <article class="container narrow">
-    <p><a class="muted" href="/blog">← {ui.blog.back}</a></p>
+  <article class="container">
+    <p><a class="btn" href="/blog">← {ui.blog.back}</a></p>
     <h1 class="page-title">{post.data.title}</h1>
-    <p class="muted"><time datetime={post.data.pubDate.toISOString()}>{fmt.format(post.data.pubDate)}</time></p>
-    <div class="prose">
-      <Content />
+    <div class="card">
+      <p class="muted"><time datetime={post.data.pubDate.toISOString()}>{fmt.format(post.data.pubDate)}</time></p>
+      <div class="prose">
+        <Content />
+      </div>
     </div>
   </article>
 </Base>

@@ -12,6 +12,7 @@ import SocialLinks from './SocialLinks.astro';
 import StackGrid from './StackGrid.astro';
 import ProjectCard from './ProjectCard.astro';
 import Contact from './Contact.astro';
+import GitHubActivity from './GitHubActivity.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -25,39 +26,57 @@ const sortedEvents = [...events].sort((a, b) => b.date.localeCompare(a.date));
 
 <div class="container">
   <section class="hero" aria-labelledby="hero-name">
-    <div class="avatar-wrapper">
-      <img class="avatar" src={profile.avatar} alt="" width="160" height="160" fetchpriority="high" referrerpolicy="no-referrer" />
-      <span class="avatar-emoji" aria-hidden="true">👩‍💻</span>
+    <div class="battle-field">
+      <div class="plate plate-foe">
+        <h1 id="hero-name">{profile.name}</h1>
+        <p class="hero-role">{profile.role[lang]}</p>
+        <div class="hp" aria-hidden="true"><span>HP</span><span class="hp-bar"><i></i></span></div>
+      </div>
+      <picture class="sprite-wrap foe"><source media="(prefers-reduced-motion: reduce)" srcset="/pokemon/caterpie.png" /><img class="sprite foe" src="/pokemon/caterpie.gif" alt="" width="56" height="56" /></picture>
+      <picture class="sprite-wrap ally"><source media="(prefers-reduced-motion: reduce)" srcset="/pokemon/vileplume.png" /><img class="sprite ally" src="/pokemon/vileplume.gif" alt="" width="56" height="56" /></picture>
+      <div class="plate plate-ally">
+        <SocialLinks lang={lang} />
+      </div>
     </div>
-    <div class="hero-text">
-      <h1 id="hero-name">{profile.name}</h1>
-      <p class="hero-role">{profile.role[lang]}</p>
-      <p class="hero-tagline">{profile.tagline[lang]}</p>
-      <SocialLinks lang={lang} />
-      <p class="hero-cta">
-        <a class="btn primary" href={`${localePath('/', lang)}#projects`}>{ui.cta.projects}</a>
-        <a class="btn" href={`${localePath('/', lang)}#contact`}><Icon name="lucide:mail" aria-hidden="true" /> {ui.cta.contact}</a>
-      </p>
+    <div class="battle-bottom">
+      <div class="box dialog"><p>{profile.tagline[lang].split(' · ').map((line) => <span class="line">{line}</span>)}</p>
+        <p class="place"><Icon name="lucide:map-pin" aria-hidden="true" /> {profile.location[lang]}</p>
+      </div>
+      <div class="box battle-menu">
+        <a href={`${localePath('/', lang)}#about`}>{ui.nav.about}</a>
+        <a href={`${localePath('/', lang)}#projects`}>{ui.cta.projects}</a>
+        <a href={`${localePath('/', lang)}#contact`}>{ui.cta.contact}</a>
+      </div>
     </div>
   </section>
 
   <Section id="about" title={ui.sections.about}>
-    <div class="prose">
-      {profile.about[lang].map((p) => <p>{p}</p>)}
+    <div class="card about-card">
+      <div class="about-side">
+        <img class="avatar" src={profile.avatar} alt="" width="144" height="144" loading="lazy" referrerpolicy="no-referrer" />
+        <picture class="sprite-wrap side"><source media="(prefers-reduced-motion: reduce)" srcset="/pokemon/hoppip.png" /><img class="sprite side" src="/pokemon/hoppip.gif" alt="" width="56" height="56" /></picture>
+      </div>
+      <div class="prose">
+        {profile.about[lang].map((p) => <p>{p}</p>)}
+      </div>
     </div>
+  </Section>
+
+  <Section id="projects" title={ui.sections.projects}>
+    <div class="rail-wrap">
+      <div class="rail-nav">
+        <button type="button" class="pill icon-only" data-rail="-1" aria-label={ui.railPrev}><Icon name="lucide:chevron-left" aria-hidden="true" /></button>
+        <button type="button" class="pill icon-only" data-rail="1" aria-label={ui.railNext}><Icon name="lucide:chevron-right" aria-hidden="true" /></button>
+      </div>
+      <div class="rail" id="projects-rail" tabindex="0" aria-label={ui.sections.projects}>
+        {projects.map((p) => <ProjectCard project={p} lang={lang} />)}
+      </div>
+    </div>
+    <GitHubActivity lang={lang} />
   </Section>
 
   <Section id="stack" title={ui.sections.stack}>
     <StackGrid lang={lang} />
-  </Section>
-
-  <Section id="projects" title={ui.sections.projects}>
-    <div class="grid">
-      {projects.map((p) => <ProjectCard project={p} lang={lang} />)}
-    </div>
-    <p class="more">
-      <a class="btn" href={`${profile.links.github}?tab=repositories`} target="_blank" rel="noopener"><Icon name="fa6-brands:github" aria-hidden="true" /> {ui.moreProjects}</a>
-    </p>
   </Section>
 
   <Section id="papers" title={ui.sections.papers}>
@@ -142,3 +161,13 @@ const sortedEvents = [...events].sort((a, b) => b.date.localeCompare(a.date));
 
   <Contact lang={lang} />
 </div>
+
+<script>
+  // Setas do carrossel de projetos: rolam um "cartão e meio" por clique
+  document.querySelectorAll<HTMLElement>('[data-rail]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const rail = document.getElementById('projects-rail');
+      rail?.scrollBy({ left: Number(btn.dataset.rail) * rail.clientWidth * 0.8, behavior: 'smooth' });
+    });
+  });
+</script>

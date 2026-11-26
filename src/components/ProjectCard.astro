@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import { Icon } from 'astro-icon/components';
 import type { Lang } from '../data/types';
 import type { Project } from '../data/projects';
@@ -11,21 +12,37 @@ interface Props {
 }
 const { project, lang } = Astro.props;
 const ui = t(lang);
+
+// Fotos extras: coloque os arquivos em src/assets/projects/<id>/ (ordem alfabética).
+const gallery = import.meta.glob<{ default: ImageMetadata }>('../assets/projects/*/*.{png,jpg,jpeg,webp,avif}', { eager: true });
+const slug = (path: string) => (path.split('/').pop() ?? '').replace(/\.[^.]+$/, '').replace(/^\d+[-_ ]*/, '');
+// Legenda no idioma da página; sem tradução cadastrada, usa o nome do arquivo
+const caption = (path: string) => project.captions?.[slug(path)]?.[lang] ?? slug(path).replace(/[-_]+/g, ' ');
+
+const extras = Object.entries(gallery)
+  .filter(([path]) => path.includes(`/projects/${project.id}/`))
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([path, mod]) => ({ src: mod.default, caption: caption(path) }));
+
+const slides = [{ src: project.image, caption: `${ui.projectCover} ${project.name}` }, ...extras];
+const dialogId = `dialog-${project.id}`;
 ---
 
 <article class="card project" id={`project-${project.id}`}>
   <Image
     class="project-cover"
     src={project.image}
-    alt={`${ui.projectCover} ${project.name}`}
+    alt=""
     widths={[480, 800]}
-    sizes="(min-width: 62rem) 19rem, (min-width: 40rem) 45vw, 90vw"
+    sizes="(min-width: 32rem) 17.5rem, 82vw"
     loading="lazy"
     decoding="async"
   />
   <div class="project-body">
     <header>
-      <h3>{project.name}</h3>
+      <h3>
+        <button type="button" class="project-open" data-open={dialogId} aria-haspopup="dialog">{project.name}</button>
+      </h3>
       <span class="muted">{project.year}</span>
     </header>
     {project.context && <p class="project-context">{project.context[lang]}</p>}
@@ -44,4 +61,125 @@ const ui = t(lang);
       )}
     </p>
   </div>
+
+  <dialog class="project-dialog" id={dialogId} aria-label={project.name}>
+    <div class="dialog-grid">
+      <div class="gallery">
+        <div class="gallery-stage">
+          <div class="gallery-track">
+            {
+              slides.map((s) => (
+                <div class="gallery-slide" data-caption={s.caption}>
+                  <Image src={s.src} alt={s.caption} widths={[800, 1200]} sizes="(min-width: 60rem) 40rem, 90vw" loading="lazy" decoding="async" />
+                </div>
+              ))
+            }
+          </div>
+          {
+            slides.length > 1 && (
+              <>
+                <button type="button" class="gallery-nav prev" data-dir="-1" aria-label={ui.prev}>
+                  <Icon name="lucide:chevron-left" aria-hidden="true" />
+                </button>
+                <button type="button" class="gallery-nav next" data-dir="1" aria-label={ui.next}>
+                  <Icon name="lucide:chevron-right" aria-hidden="true" />
+                </button>
+              </>
+            )
+          }
+        </div>
+        <p class="gallery-caption muted">
+          {slides.length > 1 && <span class="gallery-count">1/{slides.length}</span>}
+          <span class="gallery-text">{slides[0].caption}</span>
+        </p>
+        {
+          slides.length > 1 && (
+            <ul class="gallery-thumbs">
+              {slides.map((s, i) => (
+                <li>
+                  <button type="button" data-index={i} aria-label={`${i + 1}/${slides.length} ${s.caption}`} aria-current={i === 0 ? 'true' : undefined}>
+                    <Image src={s.src} alt="" width={160} loading="lazy" decoding="async" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+
+      <div class="dialog-info">
+        <button type="button" class="dialog-close pill icon-only" data-close aria-label={ui.close}>
+          <Icon name="lucide:x" aria-hidden="true" />
+        </button>
+        <p class="dialog-eyebrow">{[project.context?.[lang], project.year].filter(Boolean).join(' · ')}</p>
+        <h3>{project.name}</h3>
+        <p>{project.description[lang]}</p>
+        <ul class="chips" aria-label="Tags">
+          {project.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+        <p class="card-links">
+          <a class="btn primary" href={project.links.repo} target="_blank" rel="noopener">
+            <Icon name="fa6-brands:github" aria-hidden="true" /> {ui.code}
+          </a>
+          {project.links.demo && (
+            <a class="btn" href={project.links.demo} target="_blank" rel="noopener">
+              <Icon name="lucide:arrow-up-right" aria-hidden="true" /> {ui.demo}
+            </a>
+          )}
+        </p>
+      </div>
+    </div>
+  </dialog>
 </article>
+
+<script>
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+
+    const opener = target.closest<HTMLElement>('[data-open]');
+    if (opener) {
+      (document.getElementById(opener.dataset.open!) as HTMLDialogElement | null)?.showModal();
+      return;
+    }
+
+    const dialog = target.closest('dialog');
+    if (!dialog) return;
+    // Clique no fundo escurecido (o alvo é o próprio <dialog>) ou no X
+    if (target === dialog || target.closest('[data-close]')) {
+      dialog.close();
+      return;
+    }
+
+    const track = dialog.querySelector<HTMLElement>('.gallery-track');
+    if (!track) return;
+    const nav = target.closest<HTMLElement>('.gallery-nav');
+    if (nav) track.scrollBy({ left: Number(nav.dataset.dir) * track.clientWidth, behavior: 'smooth' });
+    const thumb = target.closest<HTMLElement>('.gallery-thumbs button');
+    if (thumb) track.scrollTo({ left: Number(thumb.dataset.index) * track.clientWidth, behavior: 'smooth' });
+  });
+
+  // Mantém contador, legenda e miniatura ativa em sincronia com o scroll
+  document.querySelectorAll<HTMLElement>('.gallery-track').forEach((track) => {
+    const root = track.closest('.gallery')!;
+    const slides = track.querySelectorAll<HTMLElement>('.gallery-slide');
+    track.addEventListener('scroll', () => {
+      const i = Math.round(track.scrollLeft / track.clientWidth);
+      const count = root.querySelector('.gallery-count');
+      if (count) count.textContent = `${i + 1}/${slides.length}`;
+      const text = root.querySelector('.gallery-text');
+      if (text) text.textContent = slides[i]?.dataset.caption ?? '';
+      root.querySelectorAll('.gallery-thumbs button').forEach((b, k) => {
+        if (k === i) b.setAttribute('aria-current', 'true');
+        else b.removeAttribute('aria-current');
+      });
+    }, { passive: true });
+  });
+
+  // Teclado: setas navegam no carrossel do modal aberto
+  document.addEventListener('keydown', (e) => {
+    const open = document.querySelector<HTMLDialogElement>('dialog.project-dialog[open]');
+    const track = open?.querySelector<HTMLElement>('.gallery-track');
+    if (!track || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return;
+    track.scrollBy({ left: (e.key === 'ArrowRight' ? 1 : -1) * track.clientWidth, behavior: 'smooth' });
+  });
+</script>

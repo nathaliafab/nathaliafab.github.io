@@ -22,7 +22,7 @@ const items = [
   {
     items.map((i) => (
       <li>
-        <a href={i.href} aria-label={ui.social[i.key]} title={ui.social[i.key]} rel={i.key === 'email' ? undefined : 'noopener'} target={i.key === 'email' ? undefined : '_blank'}>
+        <a href={i.href} data-contact-open={i.key === 'email' ? '' : undefined} aria-label={ui.social[i.key]} title={ui.social[i.key]} rel={i.key === 'email' ? undefined : 'noopener'} target={i.key === 'email' ? undefined : '_blank'}>
           <Icon name={i.icon} aria-hidden="true" />
         </a>
       </li>

@@ -17,12 +17,12 @@ const items = [
 ---
 
 <Section id="contact" title={ui.sections.contact}>
-  <p>{ui.contactText}</p>
+  <p class="note">{ui.contactText}</p>
   <ul class="contact-list">
     {
       items.map((i) => (
         <li>
-          <a href={i.href} rel={i.key === 'email' ? undefined : 'noopener'} target={i.key === 'email' ? undefined : '_blank'}>
+          <a href={i.href} data-contact-open={i.key === 'email' ? '' : undefined} rel={i.key === 'email' ? undefined : 'noopener'} target={i.key === 'email' ? undefined : '_blank'}>
             <Icon name={i.icon} aria-hidden="true" />
             <span class="contact-kind">{ui.social[i.key]}</span>
             <span class="contact-label">{i.label}</span>

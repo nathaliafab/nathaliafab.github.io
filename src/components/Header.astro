@@ -12,15 +12,16 @@ interface Props {
 const { lang, altHref, hasBlog } = Astro.props;
 const ui = t(lang);
 const home = localePath('/', lang);
+const isBlog = Astro.url.pathname.startsWith('/blog');
 const otherLang: Lang = lang === 'pt' ? 'en' : 'pt';
 const links = [
   { id: 'about', label: ui.nav.about },
-  { id: 'stack', label: ui.nav.stack },
   { id: 'projects', label: ui.nav.projects },
+  { id: 'stack', label: ui.nav.stack },
   { id: 'papers', label: ui.nav.papers },
   { id: 'events', label: ui.nav.events },
-  { id: 'contact', label: ui.nav.contact },
 ];
+const contact = { id: 'contact', label: ui.nav.contact };
 ---
 
 <header class="site-header">
@@ -29,7 +30,8 @@ const links = [
     <nav class="nav" aria-label="Principal">
       <ul>
         {links.map((l) => <li><a href={`${home}#${l.id}`} data-section={l.id}>{l.label}</a></li>)}
-        {hasBlog && <li><a href="/blog">{ui.nav.blog}</a></li>}
+        {hasBlog && <li><a href="/blog" aria-current={isBlog ? 'true' : undefined}>{ui.nav.blog}</a></li>}
+        <li><a href={`${home}#${contact.id}`} data-section={contact.id}>{contact.label}</a></li>
       </ul>
     </nav>
     <div class="header-actions">

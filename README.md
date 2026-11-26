@@ -17,6 +17,7 @@ Todo o conteúdo mora em **um só lugar**: `src/data/`. As páginas só leem ess
 Cada texto tem uma versão `pt` e outra `en`. Para criar ou ajustar algo, copie um item existente e edite.
 
 - **Novo projeto:** coloque a capa (1200×627) em `src/assets/projects/`, importe em `projects.ts` e copie um item. As imagens são otimizadas no build.
+- **Fotos do carrossel:** coloque os arquivos em `src/assets/projects/<id>/` (ordem alfabética, por isso o prefixo `01-`, `02-`...). A legenda vem de `captions` em `projects.ts`, pelo nome do arquivo sem número e extensão (ex.: `01-pagina-inicial.png` → `pagina-inicial`); sem tradução cadastrada, usa o próprio nome do arquivo.
 - **Nova tecnologia:** procure o ícone em [icon-sets.iconify.design](https://icon-sets.iconify.design) (prefira o conjunto `devicon`, que é colorido), instale o pacote `@iconify-json/...` se for um conjunto novo e adicione em `stack.ts`.
 
 ### Blog

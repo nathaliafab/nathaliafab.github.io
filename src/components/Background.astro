@@ -1,0 +1,114 @@
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<script>
+  // Grama pontilhada em tiles com flores que "piscam", como nas rotas de Pokémon Crystal.
+  // Dia = grama de Johto · noite (tema escuro) = grama arroxeada.
+  const canvas = document.getElementById('bg-canvas') as HTMLCanvasElement | null;
+  const ctx = canvas?.getContext('2d');
+
+  if (canvas && ctx) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const CELLS = 8; // a "metatile" tem 8x8 tiles de 8px
+    const TILE = 8;
+    const SIZE = CELLS * TILE;
+
+    const PALETTES = {
+      light: { a: '#8ad54a', b: '#9ee05c', dash: '#6fbf3a', petal: '#ff6f91', petal2: '#ffb3c6', core: '#ffe14a' },
+      dark: { a: '#5f5aa0', b: '#6a65ad', dash: '#514c90', petal: '#d0589a', petal2: '#f0a0d0', core: '#ffe98a' },
+    };
+
+    // Posições (em tiles) das flores dentro da metatile, espalhadas sem repetir linha/coluna
+    const FLOWERS: [number, number][] = [[1, 1], [5, 0], [3, 3], [7, 4], [0, 5], [4, 6], [6, 2]];
+
+    // Flor 5x5: quadro A = cruz (+), quadro B = diagonais (x)
+    const FLOWER: string[][] = [
+      ['..p..', '.pqp.', 'pqcqp', '.pqp.', '..p..'],
+      ['p...p', '.q.q.', '..c..', '.q.q.', 'p...p'],
+    ];
+
+    let pattern: CanvasPattern | null = null;
+    let scale = 3, frame = 0, timer = 0, w = 0, h = 0, dpr = 1;
+    const patterns: (CanvasPattern | null)[] = [null, null];
+
+    const build = () => {
+      const pal = document.documentElement.dataset.theme === 'dark' ? PALETTES.dark : PALETTES.light;
+      for (let f = 0; f < 2; f++) {
+        const c = document.createElement('canvas');
+        c.width = c.height = SIZE * scale;
+        const g = c.getContext('2d')!;
+        // grama: xadrez de 1px + risquinhos mais escuros
+        for (let y = 0; y < SIZE; y++) {
+          for (let x = 0; x < SIZE; x++) {
+            g.fillStyle = (x + y) % 2 ? pal.b : pal.a;
+            if (y % 8 === 5 && (x % 8 === 2 || x % 8 === 3)) g.fillStyle = pal.dash;
+            g.fillRect(x * scale, y * scale, scale, scale);
+          }
+        }
+        // flores
+        for (const [tx, ty] of FLOWERS) {
+          FLOWER[f].forEach((row, ry) =>
+            [...row].forEach((ch, rx) => {
+              if (ch === '.') return;
+              g.fillStyle = ch === 'p' ? pal.petal : ch === 'q' ? pal.petal2 : pal.core;
+              g.fillRect((tx * TILE + 1 + rx) * scale, (ty * TILE + 1 + ry) * scale, scale, scale);
+            }),
+          );
+        }
+        patterns[f] = ctx.createPattern(c, 'repeat');
+      }
+    };
+
+    const draw = () => {
+      pattern = patterns[frame];
+      if (!pattern) return;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.fillStyle = pattern;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    };
+
+    const resize = () => {
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      w = innerWidth;
+      h = innerHeight;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      // pixel de verdade em qualquer tela: cada "pixel do jogo" vira um bloco inteiro
+      scale = Math.max(2, Math.round(dpr * (w < 640 ? 2 : 3)));
+      build();
+      draw();
+    };
+
+    const start = () => {
+      if (reduced || timer) return;
+      timer = window.setInterval(() => {
+        frame = 1 - frame;
+        draw();
+      }, 600);
+    };
+    const stop = () => {
+      clearInterval(timer);
+      timer = 0;
+    };
+
+    resize();
+    start();
+
+    let lastW = innerWidth;
+    addEventListener('resize', () => {
+      // A barra de endereço do celular só muda a altura: não refaz os tiles à toa
+      if (innerWidth === lastW) {
+        h = innerHeight;
+        canvas.height = Math.round(h * dpr);
+        draw();
+        return;
+      }
+      lastW = innerWidth;
+      resize();
+    });
+    new MutationObserver(() => {
+      build();
+      draw();
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+  }
+</script>
