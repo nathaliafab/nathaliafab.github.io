@@ -34,6 +34,10 @@ export const ui = {
     close: 'Fechar',
     railPrev: 'Projetos anteriores',
     railNext: 'Próximos projetos',
+    searchProjects: 'Buscar projeto',
+    filterTag: 'Filtrar por tag',
+    allTags: 'Todas as tags',
+    noProjects: 'Nenhum projeto encontrado.',
     contactModal: {
       title: 'Enviar e-mail',
       to: 'Para',
@@ -94,6 +98,10 @@ export const ui = {
     close: 'Close',
     railPrev: 'Previous projects',
     railNext: 'Next projects',
+    searchProjects: 'Search projects',
+    filterTag: 'Filter by tag',
+    allTags: 'All tags',
+    noProjects: 'No projects found.',
     contactModal: {
       title: 'Send an e-mail',
       to: 'To',

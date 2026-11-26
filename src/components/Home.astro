@@ -2,7 +2,7 @@
 import { Icon } from 'astro-icon/components';
 import type { Lang } from '../data/types';
 import { profile } from '../data/profile';
-import { projects } from '../data/projects';
+import { projects, projectName } from '../data/projects';
 import { papers, awards } from '../data/papers';
 import { events } from '../data/events';
 import { t, formatMonth, localePath } from '../i18n/ui';
@@ -19,6 +19,7 @@ const { lang } = Astro.props;
 const ui = t(lang);
 
 const posts = (await getPosts()).slice(0, 3);
+const allTags = [...new Set(projects.flatMap((p) => p.tags))].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
 const related = (e: (typeof events)[number]) => projects.find((p) => p.id === e.project);
 const relatedPaper = (e: (typeof events)[number]) => papers.find((p) => p.id === e.paper);
 const sortedEvents = [...events].sort((a, b) => b.date.localeCompare(a.date));
@@ -65,12 +66,21 @@ const sortedEvents = [...events].sort((a, b) => b.date.localeCompare(a.date));
   <Section id="projects" title={ui.sections.projects}>
     <div class="rail-wrap">
       <div class="rail-nav">
+        <label class="rail-search">
+          <Icon name="lucide:search" aria-hidden="true" />
+          <input type="search" id="projects-search" placeholder={ui.searchProjects} aria-label={ui.searchProjects} autocomplete="off" />
+        </label>
+        <select id="projects-tag" class="rail-select" aria-label={ui.filterTag}>
+          <option value="">{ui.allTags}</option>
+          {allTags.map((tag) => <option value={tag}>{tag}</option>)}
+        </select>
         <button type="button" class="pill icon-only" data-rail="-1" aria-label={ui.railPrev}><Icon name="lucide:chevron-left" aria-hidden="true" /></button>
         <button type="button" class="pill icon-only" data-rail="1" aria-label={ui.railNext}><Icon name="lucide:chevron-right" aria-hidden="true" /></button>
       </div>
       <div class="rail" id="projects-rail" tabindex="0" aria-label={ui.sections.projects}>
         {projects.map((p) => <ProjectCard project={p} lang={lang} />)}
       </div>
+      <p class="rail-empty" id="projects-empty" hidden>{ui.noProjects}</p>
     </div>
     <GitHubActivity lang={lang} />
   </Section>
@@ -132,7 +142,7 @@ const sortedEvents = [...events].sort((a, b) => b.date.localeCompare(a.date));
               )}
               {related(e) && (
                 <p class="muted">
-                  <Icon name="lucide:folder-git-2" aria-hidden="true" /> <a href={`#project-${related(e)!.id}`}>{related(e)!.name}</a>
+                  <Icon name="lucide:folder-git-2" aria-hidden="true" /> <a href={`#project-${related(e)!.id}`}>{projectName(related(e)!, lang)}</a>
                 </p>
               )}
             </div>
@@ -176,4 +186,30 @@ const sortedEvents = [...events].sort((a, b) => b.date.localeCompare(a.date));
       else rail.scrollBy({ left: dir * rail.clientWidth * 0.8, behavior: 'smooth' });
     });
   });
+
+  // Busca por nome e filtro por tag: escondem os cartões que não batem
+  (() => {
+    const rail = document.getElementById('projects-rail');
+    const search = document.getElementById('projects-search') as HTMLInputElement | null;
+    const tagSel = document.getElementById('projects-tag') as HTMLSelectElement | null;
+    const empty = document.getElementById('projects-empty');
+    if (!rail || !search || !tagSel) return;
+    const norm = (v: string) => v.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    const cards = [...rail.querySelectorAll<HTMLElement>('.card.project')];
+    const apply = () => {
+      const q = norm(search.value);
+      const tag = tagSel.value;
+      let shown = 0;
+      cards.forEach((card) => {
+        const tags: string[] = JSON.parse(card.dataset.tags ?? '[]');
+        const ok = (!q || norm(card.dataset.name ?? '').includes(q)) && (!tag || tags.includes(tag));
+        card.hidden = !ok;
+        if (ok) shown++;
+      });
+      if (empty) empty.hidden = shown > 0;
+      rail.scrollTo({ left: 0 });
+    };
+    search.addEventListener('input', apply);
+    tagSel.addEventListener('change', apply);
+  })();
 </script>

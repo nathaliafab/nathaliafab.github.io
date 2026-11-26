@@ -27,6 +27,9 @@ export const stack: StackGroup[] = [
       { name: 'Java', icon: 'devicon:java' },
       { name: 'C', icon: 'devicon:c' },
       { name: 'C++', icon: 'devicon:cplusplus' },
+      { name: 'JavaScript', icon: 'devicon:javascript' },
+      { name: 'Assembly (x86)', icon: 'devicon:nasm' },
+      { name: 'LaTeX', icon: 'devicon:latex' },
     ],
   },
   {
@@ -45,6 +48,20 @@ export const stack: StackGroup[] = [
     ],
   },
   {
+    id: 'data',
+    title: { pt: 'Ciência de dados e ML', en: 'Data science & ML' },
+    items: [
+      { name: 'pandas', icon: 'devicon:pandas' },
+      { name: 'NumPy', icon: 'devicon:numpy' },
+      { name: 'scikit-learn', icon: 'devicon:scikitlearn' },
+      { name: 'SciPy', icon: 'simple-icons:scipy', color: '#8caae6' },
+      { name: 'Matplotlib', icon: 'devicon:matplotlib' },
+      { name: 'Seaborn', icon: 'devicon:seaborn' },
+      { name: 'Plotly', icon: 'devicon:plotly' },
+      { name: 'Jupyter', icon: 'devicon:jupyter' },
+    ],
+  },
+  {
     id: 'backend',
     title: { pt: 'Backend e dados', en: 'Backend & data' },
     items: [
@@ -56,6 +73,8 @@ export const stack: StackGroup[] = [
       { name: 'Node.js', icon: 'devicon:nodejs' },
       { name: 'NestJS', icon: 'devicon:nestjs' },
       { name: 'Prisma', icon: 'devicon:prisma' },
+      { name: 'Django', icon: 'simple-icons:django', color: '#092e20' },
+      { name: 'SQLite', icon: 'devicon:sqlite' },
     ],
   },
   {
@@ -65,6 +84,7 @@ export const stack: StackGroup[] = [
       { name: 'React', icon: 'devicon:react' },
       { name: 'Next.js', icon: 'devicon:nextjs' },
       { name: 'Tailwind CSS', icon: 'devicon:tailwindcss' },
+      { name: 'Vite', icon: 'devicon:vitejs' },
     ],
   },
   {
@@ -78,6 +98,8 @@ export const stack: StackGroup[] = [
       { name: 'WSL', icon: 'devicon:windows11' },
       { name: 'JUnit', icon: 'devicon:junit' },
       { name: 'pytest', icon: 'devicon:pytest' },
+      { name: 'Jest', icon: 'simple-icons:jest', color: '#c21325' },
+      { name: 'Cucumber', icon: 'simple-icons:cucumber', color: '#23d96c' },
       { name: 'Ruff', icon: 'simple-icons:ruff', color: '#261230' },
       { name: 'Trivy', icon: 'simple-icons:trivy', color: '#1904da' },
       { name: 'Bandit', icon: 'lucide:shield-check', color: '#f59e0b' },

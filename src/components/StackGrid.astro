@@ -5,23 +5,28 @@ import { stack } from '../data/stack';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+const columns = [['languages', 'ai', 'data'], ['frontend', 'backend', 'devops']];
 ---
 
 <div class="stack-groups">
   {
-    stack.map((group) => (
-      <div class="stack-group">
-        <h3>{group.title[lang]}</h3>
-        <ul class="stack-grid">
-          {group.items.map((tech) => (
-            <li>
-              <span class="stack-icon" style={tech.color ? `color:${tech.color}` : undefined}>
-                <Icon name={tech.icon} aria-hidden="true" />
-              </span>
-              <span class="stack-name">{tech.name}</span>
-            </li>
-          ))}
-        </ul>
+    columns.map((ids) => (
+      <div class="stack-col">
+        {ids.map((id) => stack.find((g) => g.id === id)).filter((g) => g !== undefined).map((group) => (
+          <div class="stack-group">
+            <h3>{group.title[lang]}</h3>
+            <ul class="stack-grid">
+              {group.items.map((tech) => (
+                <li>
+                  <span class="stack-icon" style={tech.color ? `color:${tech.color}` : undefined}>
+                    <Icon name={tech.icon} aria-hidden="true" />
+                  </span>
+                  <span class="stack-name">{tech.name}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     ))
   }
