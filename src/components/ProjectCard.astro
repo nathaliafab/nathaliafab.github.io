@@ -133,6 +133,14 @@ const dialogId = `dialog-${project.id}`;
 </article>
 
 <script>
+  // Vai para o slide seguinte/anterior; passando do último volta ao primeiro (e vice-versa)
+  const goSlide = (track: HTMLElement, dir: number) => {
+    const total = track.children.length;
+    const current = Math.round(track.scrollLeft / track.clientWidth);
+    const next = (current + dir + total) % total;
+    track.scrollTo({ left: next * track.clientWidth, behavior: 'smooth' });
+  };
+
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
 
@@ -153,7 +161,7 @@ const dialogId = `dialog-${project.id}`;
     const track = dialog.querySelector<HTMLElement>('.gallery-track');
     if (!track) return;
     const nav = target.closest<HTMLElement>('.gallery-nav');
-    if (nav) track.scrollBy({ left: Number(nav.dataset.dir) * track.clientWidth, behavior: 'smooth' });
+    if (nav) goSlide(track, Number(nav.dataset.dir));
     const thumb = target.closest<HTMLElement>('.gallery-thumbs button');
     if (thumb) track.scrollTo({ left: Number(thumb.dataset.index) * track.clientWidth, behavior: 'smooth' });
   });
@@ -180,6 +188,6 @@ const dialogId = `dialog-${project.id}`;
     const open = document.querySelector<HTMLDialogElement>('dialog.project-dialog[open]');
     const track = open?.querySelector<HTMLElement>('.gallery-track');
     if (!track || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return;
-    track.scrollBy({ left: (e.key === 'ArrowRight' ? 1 : -1) * track.clientWidth, behavior: 'smooth' });
+    goSlide(track, e.key === 'ArrowRight' ? 1 : -1);
   });
 </script>

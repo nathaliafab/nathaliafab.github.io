@@ -167,7 +167,13 @@ const sortedEvents = [...events].sort((a, b) => b.date.localeCompare(a.date));
   document.querySelectorAll<HTMLElement>('[data-rail]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const rail = document.getElementById('projects-rail');
-      rail?.scrollBy({ left: Number(btn.dataset.rail) * rail.clientWidth * 0.8, behavior: 'smooth' });
+      if (!rail) return;
+      const dir = Number(btn.dataset.rail);
+      const max = rail.scrollWidth - rail.clientWidth;
+      // No fim volta ao começo, e no começo vai para o fim
+      if (dir > 0 && rail.scrollLeft >= max - 24) rail.scrollTo({ left: 0, behavior: 'smooth' });
+      else if (dir < 0 && rail.scrollLeft <= 24) rail.scrollTo({ left: max, behavior: 'smooth' });
+      else rail.scrollBy({ left: dir * rail.clientWidth * 0.8, behavior: 'smooth' });
     });
   });
 </script>
